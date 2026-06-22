@@ -1,0 +1,1 @@
+".kanban-column-body::-webkit-scrollbar-thumb:hover {\n  background: rgba(251, 146, 60, 0.35);\n}\n    `}\n      </style>"

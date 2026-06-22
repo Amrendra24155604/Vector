@@ -1,0 +1,1 @@
+"            logo: app.logo || (app.company || \"C\").charAt(0).toUpperCase(),\n            link: app.link || \"\"\n          }));"

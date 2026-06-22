@@ -1,0 +1,1 @@
+"            <CompanyLogo logo={touchDragCard.logo} company={touchDragCard.company} className=\"w-6 h-6\" />\n            <span className=\"text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-orange-500/10 border border-orange-400/20 text-orange-300\">"

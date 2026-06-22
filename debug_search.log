@@ -1,0 +1,25 @@
+[2026-06-16T07:03:29.440Z] Error: Agent exited with code 1: {"error": "'utf-8' codec can't encode character '\\udc8f' in position 1867: surrogates not allowed"}
+
+Stack: Error: Agent exited with code 1: {"error": "'utf-8' codec can't encode character '\\udc8f' in position 1867: surrogates not allowed"}
+
+    at ChildProcess.<anonymous> (C:\career_pilot\frontend\.next\dev\server\chunks\[root-of-the-server]__0334m5i._.js:392:24)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+    at Process.callbackTrampoline (node:internal/async_hooks:130:17)
+[2026-06-16T07:11:10.071Z] Error: Agent exited with code 1: {"error": "'utf-8' codec can't encode character '\\udc8f' in position 1867: surrogates not allowed"}
+
+Stack: Error: Agent exited with code 1: {"error": "'utf-8' codec can't encode character '\\udc8f' in position 1867: surrogates not allowed"}
+
+    at ChildProcess.<anonymous> (C:\career_pilot\frontend\.next\dev\server\chunks\[root-of-the-server]__0334m5i._.js:392:24)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+    at Process.callbackTrampoline (node:internal/async_hooks:130:17)
+[2026-06-21T22:05:21.637Z] Error: Agent exited with code 3221225786: 
+Stack: Error: Agent exited with code 3221225786: 
+    at ChildProcess.<anonymous> (C:\career_pilot\frontend\.next\dev\server\chunks\[root-of-the-server]__0334m5i._.js:403:24)
+    at ChildProcess.emit (node:events:518:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+    at Process.callbackTrampoline (node:internal/async_hooks:130:17)

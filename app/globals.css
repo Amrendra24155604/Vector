@@ -1,26 +1,840 @@
 @import "tailwindcss";
 
+/* ─── CareerPilot Design System ─────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Sidebar layout */
+  --sidebar-w: 68px;
+  /* Core surface palette */
+  --cp-bg: #0c0a09;
+  --cp-surface: #151312;
+  --cp-surface-low: #1d1b1a;
+  --cp-surface-mid: #221f1e;
+  --cp-surface-high: #2c2928;
+  --cp-surface-highest: #373433;
+
+  /* Accent colours */
+  --cp-blue: #1e40af;
+  --cp-blue-light: #3b82f6;
+  --cp-orange: #f97316;
+  --cp-orange-light: #fdba74;
+  --cp-emerald: #10b981;
+  --cp-amber: #f59e0b;
+  --cp-rose: #f43f5e;
+
+  /* Text */
+  --cp-text: #e8e1df;
+  --cp-text-muted: #c1c6d5;
+
+  /* Border */
+  --cp-border: #414753;
+  --cp-border-subtle: #2c2928;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(249, 115, 22, 0.22);
+  color: #fff7ed;
+}
+
+/* ─── Material Symbols ───────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ─── LandingPage Typography System ──────────────────────────── */
+/* Headline fonts (weight) */
+.font-headline-lg {
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.font-headline-md {
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+
+/* Body fonts (weight) */
+.font-body-lg {
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.font-body-md {
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Label fonts (weight) */
+.font-label-md {
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Text sizes */
+.text-body-md {
+  font-size: 0.875rem;
+  /* 14px */
+}
+
+.text-label-md {
+  font-size: 0.8125rem;
+  /* 13px */
+}
+
+/* Semantic text colors */
+.text-on-surface-variant {
+  color: #a8a29e;
+  /* stone-400 */
+}
+
+/* Surface containers from LandingPage theme */
+.bg-surface-container {
+  background-color: #1d1b1a;
+}
+
+.bg-surface-container-lowest {
+  background-color: #0c0a09;
+}
+
+.bg-surface-variant {
+  background-color: #221f1e;
+}
+
+.border-outline-variant\/30 {
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+/* ─── Glass Cards ────────────────────────────────────────────── */
+.glass-card {
+  background: #181615;
+  border: 1px solid rgba(251, 146, 60, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(251, 146, 60, 0.04),
+    0 14px 35px rgba(0, 0, 0, 0.22);
+}
+
+.glass-card-blue {
+  background: rgba(30, 64, 175, 0.06);
+  border: 1px solid rgba(30, 64, 175, 0.25);
+}
+
+.glass-card-orange {
+  background: rgba(249, 115, 22, 0.06);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+/* ─── Sidebar ────────────────────────────────────────────────── */
+.sidebar-active {
+  background: rgba(249, 115, 22, 0.10);
+  color: #fdba74;
+  border: 1px solid rgba(249, 115, 22, 0.20);
+  box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.05);
+}
+
+/* ─── Orange Page Tint (shared across pages) ─────────────────── */
+.orange-page-tint {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(249, 115, 22, 0.045), transparent 26%),
+    radial-gradient(circle at 82% 78%, rgba(251, 146, 60, 0.04), transparent 24%),
+    linear-gradient(to bottom, rgba(255, 120, 0, 0.015), rgba(255, 120, 0, 0.008));
+  background-color: #0c0a09;
+}
+
+/* ─── Shared Card Styles (Landing/Dashboard) ─────────────────── */
+.soft-card {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.18)) drop-shadow(0 14px 35px rgba(0, 0, 0, 0.35)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.soft-card:hover {
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.75)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.32)) drop-shadow(0 14px 35px rgba(0, 0, 0, 0.45)) !important;
+}
+
+.soft-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #181615 !important;
+  z-index: -2;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)) !important;
+}
+
+.soft-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent !important;
+  border: 1.5px solid rgba(255, 255, 255, 1) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 calc(100% - 12px), 0 100%, 12px 100%, 100% 12px, 100% 0, calc(100% - 12px) 0) !important;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 4.5px rgba(255, 255, 255, 0.65)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.soft-card:hover::after {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.85)) !important;
+}
+
+.deep-card {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.18)) drop-shadow(0 18px 45px rgba(0, 0, 0, 0.35)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.deep-card:hover {
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.75)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.32)) drop-shadow(0 18px 45px rgba(0, 0, 0, 0.45)) !important;
+}
+
+.deep-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #151312 !important;
+  z-index: -2;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)) !important;
+}
+
+.deep-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent !important;
+  border: 1.5px solid rgba(255, 255, 255, 1) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 calc(100% - 12px), 0 100%, 12px 100%, 100% 12px, 100% 0, calc(100% - 12px) 0) !important;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 4.5px rgba(255, 255, 255, 0.65)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.deep-card:hover::after {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.85)) !important;
+}
+
+.hero-shell {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.18)) drop-shadow(0 30px 70px rgba(0, 0, 0, 0.4)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.hero-shell:hover {
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.75)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.32)) drop-shadow(0 30px 70px rgba(0, 0, 0, 0.45)) !important;
+}
+
+.hero-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(24, 21, 19, 0.92), rgba(18, 15, 14, 0.96)) !important;
+  z-index: -2;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px)) !important;
+}
+
+.hero-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: transparent !important;
+  background-image: 
+    linear-gradient(45deg, transparent 16.2px, rgba(255, 255, 255, 1) 16.2px, rgba(255, 255, 255, 1) 17.7px, transparent 17.7px),
+    linear-gradient(45deg, transparent 16.2px, rgba(255, 255, 255, 1) 16.2px, rgba(255, 255, 255, 1) 17.7px, transparent 17.7px) !important;
+  background-position: left bottom, right top !important;
+  background-size: 24px 24px !important;
+  background-repeat: no-repeat !important;
+  background-origin: border-box !important;
+  border: 1.5px solid rgba(255, 255, 255, 1) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 calc(100% - 24px), 0 100%, 24px 100%, 100% 24px, 100% 0, calc(100% - 24px) 0) !important;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 4.5px rgba(255, 255, 255, 0.65)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.hero-shell:hover::after {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.85)) !important;
+}
+
+.eyebrow {
+  background: rgba(249, 115, 22, 0.08);
+  border: 1px solid rgba(251, 146, 60, 0.18);
+  color: #fdba74;
+}
+
+.orange-soft {
+  color: #fdba74;
+}
+
+.orange-main {
+  color: #fb923c;
+}
+
+/* ─── Interactive transitions ────────────────────────────────── */
+.interactive {
+  transition:
+    color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.interactive:active {
+  transform: scale(0.98);
+}
+
+/* ─── Progress Bars (Landing/Dashboard) ──────────────────────── */
+.progress-track {
+  background: #221d1a;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, rgba(255, 190, 120, 1) 0%, rgba(255, 170, 90, 0.95) 25%, rgba(249, 115, 22, 0.85) 65%, rgba(234, 88, 12, 0.92) 100%);
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.18);
+}
+
+/* ─── Section glow ───────────────────────────────────────────── */
+.section-glow {
+  position: absolute;
+  inset: auto -10% -20% auto;
+  width: 280px;
+  height: 280px;
+  border-radius: 9999px;
+  background: rgba(249, 115, 22, 0.12);
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+/* ─── Input shells ───────────────────────────────────────────── */
+.input-shell {
+  background: rgba(28, 25, 23, 0.82);
+  border: 1px solid rgba(251, 146, 60, 0.10);
+}
+
+.input-shell:focus-within {
+  border-color: rgba(251, 146, 60, 0.24);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.08);
+}
+
+/* ─── Button styles ──────────────────────────────────────────── */
+
+/* Wavy animated blue keyframes */
+@keyframes wavy-button-flow {
+  0% {
+    background-position: 0% 50%, 200% 0%, 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%, 0% 0%, 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%, -200% 0%, 0% 50%;
+  }
+}
+
+@keyframes wave-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wavy-blue-btn,
+.primary-blue {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
+  isolation: isolate !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.wavy-blue-btn::before,
+.primary-blue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(270deg, #1e3a8a, #1d4ed8, #1e40af, #2563eb, #1a367a, #1d4ed8) padding-box,
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.95)) border-box;
+  background-size: 300% 300%;
+  border: 1px solid transparent !important;
+  animation: wavy-button-flow 6s ease infinite;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px)) !important;
+  z-index: -2;
+  transition: all 0.4s ease;
+}
+
+.wavy-blue-btn::after,
+.primary-blue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: transparent !important;
+  background-image: 
+    linear-gradient(45deg, transparent 7.7px, rgba(255, 255, 255, 1) 7.7px, rgba(255, 255, 255, 1) 9.2px, transparent 9.2px),
+    linear-gradient(45deg, transparent 7.7px, rgba(255, 255, 255, 1) 7.7px, rgba(255, 255, 255, 1) 9.2px, transparent 9.2px) !important;
+  background-position: left bottom, right top !important;
+  background-size: 12px 12px !important;
+  background-repeat: no-repeat !important;
+  background-origin: border-box !important;
+  border: 1.5px solid rgba(255, 255, 255, 1) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 calc(100% - 12px), 0 100%, 12px 100%, 100% 12px, 100% 0, calc(100% - 12px) 0) !important;
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 4.5px rgba(255, 255, 255, 0.65)) !important;
+  transition: filter 200ms ease-out !important;
+}
+
+.wavy-blue-btn:hover,
+.primary-blue:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.75)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.32)) !important;
+}
+
+.wavy-blue-btn:hover::after,
+.primary-blue:hover::after {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.85)) !important;
+}
+
+.wavy-blue-btn:active,
+.primary-blue:active {
+  transform: translateY(1px);
+  filter: drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.18)) brightness(0.95) !important;
+}
+
+.wavy-blue-btn:disabled,
+.primary-blue:disabled {
+  background: transparent !important;
+  animation: none !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.wavy-blue-btn:disabled::before,
+.primary-blue:disabled::before {
+  background: #221f1e !important;
+  animation: none !important;
+  display: block !important;
+}
+
+.wavy-blue-btn:disabled::after,
+.primary-blue:disabled::after {
+  display: none !important;
+}
+
+/* Active tab label with wavy gradient text */
+.wavy-tab-active {
+  background: linear-gradient(270deg,
+      #1e3a8a,
+      #2563eb,
+      #1d4ed8,
+      #1e40af,
+      #2563eb,
+      #1e3a8a);
+  background-size: 300% 300%;
+  animation: wavy-button-flow 6s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.65));
+}
+
+.orange-ghost {
+  border: 1px solid #f97316;
+  color: #fdba74;
+  background: rgba(249, 115, 22, 0.04);
+}
+
+.orange-ghost:hover {
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.cut-choice-btn {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  z-index: 1;
+  isolation: isolate;
+  transition: all 0.2s ease !important;
+}
+
+.cut-choice-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--btn-border, rgba(251, 146, 60, 0.15)) !important;
+  z-index: -2;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)) !important;
+  filter: var(--btn-filter, none) !important;
+  transition: all 0.2s ease;
+}
+
+.cut-choice-btn::after {
+  content: "";
+  position: absolute;
+  inset: 1.5px;
+  background: var(--btn-bg, #1a1716) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px)) !important;
+  transition: all 0.2s ease;
+}
+
+.cut-choice-btn:hover::before {
+  background: var(--btn-border-hover, rgba(251, 146, 60, 0.35)) !important;
+}
+
+/* ─── Suggestion Pill Tag (cut corners, small) ───────────────── */
+.cut-tag {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  z-index: 1;
+  isolation: isolate;
+  transition: all 0.18s ease !important;
+}
+
+.cut-tag::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--tag-border, rgba(251, 146, 60, 0.18)) !important;
+  z-index: -2;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)) !important;
+  transition: background 0.18s ease;
+}
+
+.cut-tag::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--tag-bg, #1d1b1a) !important;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px)) !important;
+  transition: background 0.18s ease;
+}
+
+.cut-tag:hover::before {
+  background: var(--tag-border-hover, rgba(251, 146, 60, 0.4)) !important;
+}
+
+.cut-tag:hover::after {
+  background: var(--tag-bg-hover, #252221) !important;
+}
+
+.cut-tag.active::before {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.cut-tag.active::after {
+  background: var(--tag-active-bg, #2d1a0e) !important;
+}
+
+
+/* ─── Progress Bars ──────────────────────────────────────────── */
+.progress-gauge {
+  background: conic-gradient(var(--cp-blue) var(--pct, 85%), transparent 0);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--cp-surface-highest);
+  border-radius: 10px;
+}
+
+/* ─── Infinite Scroll ────────────────────────────────────────── */
+@theme inline {
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+}
+
+/* ─── Cursor Glow (Landing) ──────────────────────────────────── */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 380px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.55;
+  filter: blur(70px);
+  background: radial-gradient(circle,
+      rgba(251, 146, 60, .30) 0%,
+      rgba(249, 115, 22, .22) 28%,
+      rgba(234, 88, 12, .16) 48%,
+      rgba(194, 65, 12, .08) 68%,
+      transparent 85%);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.07s linear;
+  mix-blend-mode: screen;
+}
+
+/* ─── Pulse animation ────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, .7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.pulse-red {
+  animation: pulse-ring 2s infinite;
+}
+
+/* ─── Waveform ───────────────────────────────────────────────── */
+@keyframes wave {
+
+  0%,
+  100% {
+    transform: scaleY(0.5);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+/* ─── Tag chips ──────────────────────────────────────────────── */
+.chip-blue {
+  background: rgba(30, 64, 175, .12);
+  color: #93c5fd;
+  border: 1px solid rgba(30, 64, 175, .3);
+}
+
+.chip-orange {
+  background: rgba(249, 115, 22, .12);
+  color: #fdba74;
+  border: 1px solid rgba(249, 115, 22, .3);
+}
+
+.chip-green {
+  background: rgba(16, 185, 129, .12);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, .3);
+}
+
+.chip-rose {
+  background: rgba(244, 63, 94, .12);
+  color: #fda4af;
+  border: 1px solid rgba(244, 63, 94, .3);
+}
+
+/* ─── Sidebar-aware layout ────────────────────────────────────── */
+.sidebar-aware {
+  margin-left: 0;
+  transition: margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 1024px) {
+  .sidebar-aware {
+    margin-left: var(--sidebar-w, 68px);
+  }
+}
+
+.sidebar-aware-top {
+  left: 0;
+  transition: left 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 1024px) {
+  .sidebar-aware-top {
+    left: var(--sidebar-w, 68px);
+  }
+}
+
+/* ─── Nav / Top shells ───────────────────────────────────────── */
+.nav-shell {
+  background: rgba(18, 15, 14, 0.90);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(251, 146, 60, 0.10);
+}
+
+.top-shell {
+  background: rgba(12, 10, 9, 0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(251, 146, 60, 0.10);
+}
+
+/* ─── Page-entry animations ──────────────────────────────────── */
+.animate-title {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: fadeUpTitle 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-subtitle {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUpSubtitle 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes fadeUpTitle {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUpSubtitle {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Choice buttons (tone/tab selectors) ────────────────────── */
+.choice-btn {
+  position: relative;
+  background: rgba(28, 25, 23, 0.70);
+  border: 1px solid rgba(251, 146, 60, 0.12);
+  border-radius: 12px;
+  color: #a8a29e;
+  cursor: pointer;
+  transition:
+    background 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.choice-btn:hover {
+  background: rgba(40, 36, 33, 0.85);
+  border-color: rgba(251, 146, 60, 0.22);
+  color: #e8e1df;
+}
+
+.choice-btn:active {
+  transform: scale(0.97);
+}
+
+.choice-btn.selected {
+  background: var(--active-bg, rgba(249, 115, 22, 0.12));
+  border-color: var(--active-color, rgba(249, 115, 22, 0.45));
+  color: var(--active-color, #fdba74);
+  box-shadow:
+    0 0 0 1px var(--active-color, rgba(249, 115, 22, 0.15)),
+    0 0 14px rgba(249, 115, 22, 0.08);
+}
+
+/* ─── Additional chip variants ───────────────────────────────── */
+.chip-amber {
+  background: rgba(245, 158, 11, .12);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, .3);
+}
+
+.chip-purple {
+  background: rgba(139, 92, 246, .12);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, .3);
+}
+
+.chip-emerald {
+  background: rgba(16, 185, 129, .12);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, .3);
+}
+
+/* ─── Scrollbar Utility ───────────────────────────────────────── */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Scroll Lock Utility ────────────────────────────────────── */
+html.no-scroll,
+body.no-scroll {
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  touch-action: none !important;
 }
