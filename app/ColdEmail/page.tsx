@@ -359,9 +359,9 @@ export default function ColdEmailPage() {
             </div>
           </section>
 
-          <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 2xl:grid-cols-5 gap-8">
             {/* Form */}
-            <div className="xl:col-span-2 flex flex-col gap-4">
+            <div className="2xl:col-span-2 flex flex-col gap-4">
               <div className="soft-card p-4 sm:p-8 rounded-b-2xl sm:rounded-2xl email-setup-card rounded-t-none border-t-0 sm:rounded-t-2xl sm:border-t flex flex-col gap-4 sm:gap-6 font-mono">
                 {/* Preferences Header */}
                 <div className="flex items-center justify-between mb-2 border-b border-orange-500/10 pb-3">
@@ -672,7 +672,7 @@ export default function ColdEmailPage() {
             </div>
 
             {/* Output */}
-            <div className="xl:col-span-3">
+            <div className="2xl:col-span-3">
               {!result ? (
                 <div className="soft-card rounded-2xl flex flex-col items-center justify-center min-h-[500px] gap-5 text-center p-10">
                   <div className="w-24 h-24 rounded-2xl flex items-center justify-center bg-orange-500/10 border border-orange-400/20">

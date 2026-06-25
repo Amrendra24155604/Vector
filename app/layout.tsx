@@ -6,20 +6,6 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/lib/auth";
 import GlobalFocusCursor from "@/components/GlobalFocusCursor";
 import GlobalPageLoader from "@/components/GlobalPageLoader";
-import { Inter, Space_Mono } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-space-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Vector – AI Career Coach for College Students",
@@ -38,8 +24,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${spaceMono.variable}`}>
+    <html lang="en" className="dark">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet"
+        />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"

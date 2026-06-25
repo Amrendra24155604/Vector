@@ -1439,8 +1439,8 @@ export default function InternshipMatchPage() {
 
 
                     {activeTab === "browse" ? (
-                        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-                            <div className="xl:col-span-1 flex flex-col gap-4">
+                        <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8">
+                            <div className="2xl:col-span-1 flex flex-col gap-4">
                                 <div className="soft-card rounded-b-2xl sm:rounded-2xl match-profile-card rounded-t-none border-t-0 sm:rounded-t-2xl sm:border-t p-5">
                                     <h3 className="font-headline-md text-body-md text-white mb-4 flex items-center gap-2">
                                         <CoachPreferencesIcon />
@@ -1535,7 +1535,7 @@ export default function InternshipMatchPage() {
                                 </div>
                             </div>
 
-                            <div className="xl:col-span-3">
+                            <div className="2xl:col-span-3">
                                 {searchError && (
                                     <div className="mb-4 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm">
                                         {searchError}

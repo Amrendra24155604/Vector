@@ -827,8 +827,8 @@ export default function ResumeAnalyzerPage() {
                         </div>
                     </section>
 
-                    <div className="grid grid-cols-1 xl:grid-cols-5 gap-8">
-                        <div className="xl:col-span-2 flex flex-col gap-6">
+                    <div className="grid grid-cols-1 2xl:grid-cols-5 gap-8">
+                        <div className="2xl:col-span-2 flex flex-col gap-6">
                             {/* Unified form card — mirrors MockInterview "COACH PREFERENCES" template */}
                             <div className="soft-card p-5 sm:p-8 rounded-b-2xl sm:rounded-2xl resume-upload-card rounded-t-none border-t-0 sm:rounded-t-2xl sm:border-t flex flex-col gap-6 font-mono">
 
@@ -1011,7 +1011,7 @@ export default function ResumeAnalyzerPage() {
                             </div>
                         </div>{/* end xl:col-span-2 */}
 
-                        <div className="xl:col-span-3 flex flex-col gap-6">
+                        <div className="2xl:col-span-3 flex flex-col gap-6">
                             {analysisResult ? (
                                 <>
                                     <div className="soft-card rounded-2xl p-4 sm:p-6">

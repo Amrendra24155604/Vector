@@ -78,31 +78,11 @@ html {
 body {
   background-color: var(--cp-bg);
   color: var(--cp-text);
-  font-family: var(--font-inter), sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-width: 100%;
   overflow-x: hidden;
-}
-
-/* Custom Scrollbar to unify viewport layout widths across Chrome, Brave, and Edge */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cp-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--cp-surface-high);
-  border-radius: 5px;
-  border: 2px solid var(--cp-bg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--cp-orange);
 }
 
 ::selection {

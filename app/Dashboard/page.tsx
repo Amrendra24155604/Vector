@@ -942,8 +942,8 @@ export default function Page() {
                 </div>
               </section>
 
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <div className="xl:col-span-2 flex flex-col gap-10">
+              <div className="grid grid-cols-1 2xl:grid-cols-3 gap-8">
+                <div className="2xl:col-span-2 flex flex-col gap-10">
                   <section>
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-2xl font-bold tracking-tight text-white">

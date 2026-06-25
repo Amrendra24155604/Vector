@@ -394,7 +394,7 @@ export default function ProgressPage() {
           </div>
 
           {/* Stats grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 font-mono">
+          <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-6 gap-4 mb-8 font-mono">
             {displayStats.map((s) => {
               const StatIcon = PROGRESS_STAT_ICONS[s.icon] || AverageScoreIcon;
               return (
@@ -416,8 +416,8 @@ export default function ProgressPage() {
             })}
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 font-mono">
-            <div className="xl:col-span-2 soft-card rounded-2xl p-4 sm:p-6">
+          <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6 font-mono">
+            <div className="2xl:col-span-2 soft-card rounded-2xl p-4 sm:p-6">
               <div className="flex items-center justify-between border-b border-orange-500/10 pb-3 mb-4">
                 <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 font-mono uppercase tracking-wider">
                   <AverageScoreIcon />
