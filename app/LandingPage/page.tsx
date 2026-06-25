@@ -1994,7 +1994,7 @@ export default function Page() {
                 </div>
 
                 {/* Infinite Moving Cards running below the columns */}
-                <div className="lg:col-span-12 space-y-1 md:space-y-4 pt-0 -mt-16 lg:-mt-16">
+                <div className="lg:col-span-12 space-y-1 md:space-y-4 pt-0 -mt-4 lg:-mt-8">
                   <InfiniteMovingCards
                     items={items}
                     direction="left"
