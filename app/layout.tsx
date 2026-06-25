@@ -8,7 +8,7 @@ import GlobalFocusCursor from "@/components/GlobalFocusCursor";
 import GlobalPageLoader from "@/components/GlobalPageLoader";
 
 export const metadata: Metadata = {
-  title: "CareerPilot – AI Career Coach for College Students",
+  title: "Vector – AI Career Coach for College Students",
   description:
     "Smart resume analyzer, internship matching, AI mock interviews, cold email generator, and career progress tracking – all in one AI-powered platform.",
 };

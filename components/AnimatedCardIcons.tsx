@@ -61,6 +61,20 @@ export function InterviewsCompletedIcon({ className = "" }: { className?: string
 export function AverageScoreIcon({ className = "" }: { className?: string }) {
   return (
     <IconFrame className={className}>
+      <style>{`
+        .bar-1 { animation: avg-scan 1.4s ease-in-out infinite; }
+        .bar-2 { animation: avg-scan 1.2s ease-in-out infinite 0.2s; }
+        .bar-3 { animation: avg-scan 1.6s ease-in-out infinite 0.4s; }
+        .glowing-target-dot { animation: avg-glow-pulse 2s ease-in-out infinite; }
+        @keyframes avg-scan {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(6px); }
+        }
+        @keyframes avg-glow-pulse {
+          0%, 100% { filter: drop-shadow(0 0 1px #fb923c); opacity: 0.6; }
+          50% { filter: drop-shadow(0 0 4px #fff); opacity: 1; }
+        }
+      `}</style>
       <circle cx="16" cy="16" r="13" stroke="rgba(251, 146, 60, 0.08)" strokeWidth="1" />
       <circle cx="16" cy="16" r="9" stroke="rgba(251, 146, 60, 0.05)" strokeWidth="1" />
       <line x1="3" y1="16" x2="29" y2="16" stroke="rgba(251, 146, 60, 0.06)" strokeWidth="1" />
@@ -78,6 +92,27 @@ export function PrepStreakIcon({ className = "", gradId = "flameGradCard" }: { c
   const hoverGradId = `${gradId}Hover`;
   return (
     <IconFrame className={className}>
+      <style>{`
+        .flame-core {
+          animation: local-scale-flame 1.5s ease-in-out infinite, local-wave-left-right 2s ease-in-out infinite;
+          transform-origin: 16px 22px;
+        }
+        .spark-1 { animation: local-float-spark 1.2s linear infinite; transform-origin: center; }
+        .spark-2 { animation: local-float-spark 0.9s linear infinite 0.3s; transform-origin: center; }
+        .spark-3 { animation: local-float-spark 1.5s linear infinite 0.6s; transform-origin: center; }
+        @keyframes local-scale-flame {
+          0%, 100% { transform: scaleY(1) scaleX(1); }
+          50% { transform: scaleY(1.15) scaleX(0.96); filter: brightness(1.18); }
+        }
+        @keyframes local-wave-left-right {
+          0%, 100% { transform: skewX(-2deg); }
+          50% { transform: skewX(2deg); }
+        }
+        @keyframes local-float-spark {
+          0% { transform: translateY(0) scale(1); opacity: 0.8; }
+          100% { transform: translateY(-14px) scale(0.4); opacity: 0; }
+        }
+      `}</style>
       <defs>
         <linearGradient id={gradId} x1="0%" y1="100%" x2="0%" y2="0%">
           <stop offset="0%" stopColor="#ea580c" />
@@ -621,13 +656,17 @@ export function SkillsConstellationIcon({ className = "" }: { className?: string
     <div className={`relative flex items-center justify-center flex-shrink-0 select-none ${className}`}>
       <svg width="38" height="38" viewBox="0 0 32 32" fill="none">
         <style>{`
-          .const-node-1 { animation: twinkle 2s ease-in-out infinite; }
-          .const-node-2 { animation: twinkle 2s ease-in-out infinite 0.6s; }
-          .const-node-3 { animation: twinkle 2s ease-in-out infinite 1.2s; }
+          .const-node-1 { animation: const-twinkle 2s ease-in-out infinite; }
+          .const-node-2 { animation: const-twinkle 2s ease-in-out infinite 0.6s; }
+          .const-node-3 { animation: const-twinkle 2s ease-in-out infinite 1.2s; }
           .const-line { animation: line-glow-key 2s ease-in-out infinite; }
           @keyframes line-glow-key {
             0%, 100% { stroke-opacity: 0.15; }
             50% { stroke-opacity: 0.45; }
+          }
+          @keyframes const-twinkle {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 1; }
           }
         `}</style>
         {/* Constellation link lines */}
@@ -674,14 +713,36 @@ export function AiCoachIcon({ className = "" }: { className?: string }) {
     <IconFrame className={className} size={32}>
       <style>{`
         .coach-orbit { animation: spin-cw 8s linear infinite; transform-origin: 16px 16px; }
+        .coach-spark { animation: spin-ccw 12s linear infinite; transform-origin: 16px 16px; }
         .coach-core { animation: breathe 2s ease-in-out infinite; transform-origin: 16px 16px; }
+        .coach-pulse { animation: ripple-expand 2.5s cubic-bezier(0.1, 0.8, 0.3, 1) infinite; transform-origin: 16px 16px; }
+        @keyframes ripple-expand {
+          0% { r: 3px; opacity: 0.8; stroke: ${orangeMain}; }
+          50% { opacity: 0.45; }
+          100% { r: 11px; opacity: 0; stroke: ${orangeLight}; }
+        }
       `}</style>
+      
+      {/* Outer concentric telemetry ring */}
       <circle cx="16" cy="16" r="12" stroke="rgba(251,146,60,0.15)" strokeWidth="1" className="coach-orbit" strokeDasharray="3 3" />
-      <rect x="11" y="12" width="10" height="8" rx="2" stroke={orangeMain} strokeWidth="1.2" fill="rgba(251,146,60,0.08)" />
-      <circle cx="13.5" cy="15" r="1" fill={orangeLight} />
-      <circle cx="18.5" cy="15" r="1" fill={orangeLight} />
-      <path d="M13 18.5H19" stroke={orangeMain} strokeWidth="1" strokeLinecap="round" />
-      <circle cx="16" cy="8" r="2" fill="#fff" className="coach-core" style={{ filter: "drop-shadow(0 0 3px #fb923c)" }} />
+      
+      {/* Expanding pulse wave */}
+      <circle cx="16" cy="16" r="8" fill="none" strokeWidth="1" className="coach-pulse" />
+      
+      {/* Central neural star/spark */}
+      <g className="coach-spark">
+        <path d="M16 8V24 M8 16H24" stroke={orangeMain} strokeWidth="1.2" strokeLinecap="round" />
+        <path d="M10.5 10.5L21.5 21.5 M10.5 21.5L21.5 10.5" stroke={orangeLight} strokeWidth="0.8" strokeLinecap="round" />
+      </g>
+      
+      {/* Glowing intelligence core */}
+      <circle cx="16" cy="16" r="3.5" fill="#fff" className="coach-core" style={{ filter: "drop-shadow(0 0 4px #fb923c)" }} />
+      
+      {/* Surrounding constellation nodes */}
+      <circle cx="11" cy="9" r="1" fill={orangeLight} />
+      <circle cx="21" cy="9" r="1" fill={orangeLight} />
+      <circle cx="11" cy="23" r="1" fill={orangeLight} />
+      <circle cx="21" cy="23" r="1" fill={orangeLight} />
     </IconFrame>
   );
 }
@@ -721,7 +782,11 @@ export function RecentApplicationsIcon({ className = "" }: { className?: string 
   return (
     <IconFrame className={className} size={32}>
       <style>{`
-        .app-pulse { animation: twinkle 2s ease-in-out infinite; }
+        .app-pulse { animation: app-twinkle 2s ease-in-out infinite; }
+        @keyframes app-twinkle {
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 1; }
+        }
       `}</style>
       <rect x="9" y="10" width="14" height="12" rx="2" stroke={orangeMain} strokeWidth="1.2" strokeOpacity="0.5" fill="rgba(251,146,60,0.04)" />
       <path d="M9 13H23" stroke={orangeMain} strokeWidth="1" strokeOpacity="0.35" />
@@ -772,7 +837,11 @@ export function InterviewTypeSystemDesignIcon({ className = "" }: { className?: 
   return (
     <IconFrame className={className} size={36}>
       <style>{`
-        .sd-node { animation: twinkle 2s ease-in-out infinite; }
+        .sd-node { animation: sd-twinkle 2s ease-in-out infinite; }
+        @keyframes sd-twinkle {
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 1; }
+        }
       `}</style>
       <circle cx="16" cy="8" r="3" stroke={orangeMain} strokeWidth="1.2" fill="rgba(251,146,60,0.1)" className="sd-node" />
       <circle cx="8" cy="22" r="3" stroke={orangeLight} strokeWidth="1.2" fill="rgba(251,146,60,0.08)" className="sd-node" style={{ animationDelay: "0.4s" }} />
@@ -902,8 +971,30 @@ export function KanbanBoardIcon({ className = "" }: { className?: string }) {
 
 export function CoachingStarIcon({ className = "" }: { className?: string }) {
   return (
-    <IconFrame className={className} size={32}>
-      <path d="M16 5L18.5 12.5H26.5L20 17L22.5 24.5L16 20L9.5 24.5L12 17L5.5 12.5H13.5L16 5Z" stroke={orangeMain} strokeWidth="1" fill="rgba(251,146,60,0.12)" strokeLinejoin="round" />
+    <IconFrame className={className}>
+      <style>{`
+        .star-orbit { animation: spin-cw 20s linear infinite; transform-origin: 16px 16px; }
+        .star-pulse { animation: breathe 2s ease-in-out infinite; transform-origin: 16px 16px; }
+      `}</style>
+      
+      {/* Telemetry boundaries / circular rings */}
+      <circle cx="16" cy="16" r="13" stroke="rgba(251,146,60,0.08)" strokeWidth="1" />
+      <circle cx="16" cy="16" r="10" stroke="rgba(251,146,60,0.18)" strokeWidth="1" strokeDasharray="2 3" className="star-orbit" />
+      
+      {/* Crosshair ticks */}
+      <line x1="3" y1="16" x2="29" y2="16" stroke="rgba(251,146,60,0.06)" strokeWidth="0.8" />
+      <line x1="16" y1="3" x2="16" y2="29" stroke="rgba(251,146,60,0.06)" strokeWidth="0.8" />
+      
+      {/* Star Path */}
+      <path 
+        d="M16 5L18.5 12.5H26.5L20 17L22.5 24.5L16 20L9.5 24.5L12 17L5.5 12.5H13.5L16 5Z" 
+        stroke={orangeMain} 
+        strokeWidth="1.5" 
+        fill="rgba(251,146,60,0.08)" 
+        strokeLinejoin="round" 
+        className="star-pulse"
+        style={{ filter: "drop-shadow(0 0 3px rgba(249,115,22,0.45))" }}
+      />
     </IconFrame>
   );
 }
@@ -916,6 +1007,39 @@ export function CoachingMicIcon({ className = "" }: { className?: string }) {
       <line x1="16" y1="20" x2="16" y2="24" stroke={orangeMain} strokeWidth="1.2" strokeLinecap="round" />
       <line x1="12" y1="24" x2="20" y2="24" stroke={orangeMain} strokeWidth="1.2" strokeLinecap="round" />
     </IconFrame>
+  );
+}
+
+export function NotificationsBellIcon({ className = "" }: { className?: string }) {
+  return (
+    <div className={`relative flex items-center justify-center flex-shrink-0 select-none ${className}`}>
+      <svg width="38" height="38" viewBox="0 0 32 32" fill="none">
+        <style>{`
+          .bell-swing { animation: bell-ring-swing 2.5s ease-in-out infinite; transform-origin: 16px 6px; }
+          .bell-clapper { animation: bell-clapper-swing 2.5s ease-in-out infinite; transform-origin: 16px 24px; }
+          @keyframes bell-ring-swing {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(12deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(6deg); }
+            80% { transform: rotate(-4deg); }
+          }
+          @keyframes bell-clapper-swing {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-3px); }
+            40% { transform: translateX(2.5px); }
+            60% { transform: translateX(-1.5px); }
+            80% { transform: translateX(1px); }
+          }
+        `}</style>
+        <path d="M16 6C17.1 6 18 5.1 18 4C18 2.9 17.1 2 16 2C14.9 2 14 2.9 14 4C14 5.1 14.9 6 16 6Z" stroke={orangeLight} strokeWidth="1.2" />
+        <g className="bell-swing">
+          <path d="M16 6C11 6 10 11 10 16V20C10 21.5 8.5 22 8.5 22H23.5C23.5 22 22 21.5 22 20V16C22 11 21 6 16 6Z" fill="rgba(251,146,60,0.06)" stroke={orangeMain} strokeWidth="1.5" strokeLinejoin="round" />
+          <path d="M7 22H25" stroke={orangeMain} strokeWidth="1.5" strokeLinecap="round" />
+        </g>
+        <path d="M14 24C14 25.1 14.9 26 16 26C17.1 26 18 25.1 18 24" stroke={orangeLight} strokeWidth="1.5" strokeLinecap="round" className="bell-clapper" />
+      </svg>
+    </div>
   );
 }
 

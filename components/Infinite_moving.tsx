@@ -27,6 +27,7 @@ export const InfiniteMovingCards = ({
     addAnimation();
   }, []);
   const [start, setStart] = useState(false);
+
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
@@ -43,21 +44,17 @@ export const InfiniteMovingCards = ({
       setStart(true);
     }
   }
+
   const getDirection = () => {
     if (containerRef.current) {
       if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards",
-        );
+        containerRef.current.style.setProperty("--animation-direction", "forwards");
       } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse",
-        );
+        containerRef.current.style.setProperty("--animation-direction", "reverse");
       }
     }
   };
+
   const getSpeed = () => {
     if (containerRef.current) {
       if (speed === "fast") {
@@ -69,6 +66,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
+
   return (
     <div
       ref={containerRef}
@@ -80,32 +78,32 @@ export const InfiniteMovingCards = ({
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-3 sm:gap-4 py-4",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
         {items.map((item, idx) => (
-         <li
-  className="relative flex w-[350px] max-w-full shrink-0 flex-col items-center justify-center rounded-3xl border border-orange-400/20 bg-[#141312] px-8 py-8 text-center shadow-[0_0_0_1px_rgba(249,115,22,0.06)] md:w-[450px]"
-  key={item.quote}
->
+          <li
+            className="relative flex w-[200px] sm:w-[350px] md:w-[450px] max-w-full shrink-0 flex-col items-center justify-center rounded-2xl sm:rounded-3xl border border-orange-400/20 bg-[#141312] px-4 py-4 sm:px-8 sm:py-8 text-center shadow-[0_0_0_1px_rgba(249,115,22,0.06)]"
+            key={item.quote + idx}
+          >
             <blockquote>
               <div
                 aria-hidden="true"
                 className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
               ></div>
-              <span className="relative z-20 text-lg font-semibold text-white">
-  {item.quote}
-</span>
-              <div className="relative z-20 mt-6 flex flex-row items-center">
+              <span className="relative z-20 text-xs sm:text-lg font-semibold text-white leading-snug">
+                {item.quote}
+              </span>
+              <div className="relative z-20 mt-3 sm:mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">
-                  <span className="text-sm leading-[1.6] font-normal text-neutral-300">
-  {item.name}
-</span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-orange-300">
-  {item.title}
-</span>
+                  <span className="text-[11px] sm:text-sm leading-[1.6] font-normal text-neutral-300">
+                    {item.name}
+                  </span>
+                  <span className="text-[9px] sm:text-xs uppercase tracking-[0.2em] text-orange-300">
+                    {item.title}
+                  </span>
                 </span>
               </div>
             </blockquote>

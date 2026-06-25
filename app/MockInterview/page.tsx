@@ -438,7 +438,7 @@ export default function MockInterviewPage() {
                     }}
                 />
                 <TopBar title="AI Mock Interview Coach" />
-                <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+                <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
                     <div className="w-full max-w-7xl mx-auto">
                         <section className="relative overflow-hidden select-none hero-shell p-6 sm:p-8 md:p-10 interview-header rounded-t-[32px] rounded-b-none border-b-0 mb-0 sm:rounded-[32px] sm:border-b sm:mb-10">
                             <div className="hidden sm:block absolute top-0 left-0 w-72 h-72 bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -1263,7 +1263,7 @@ export default function MockInterviewPage() {
                 }}
             />
             <TopBar title="Session Results" />
-            <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+            <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
                 <div className="max-w-7xl mx-auto">
                     {isCompleting ? (
                         <div className="flex flex-col items-center justify-center gap-6 py-32">

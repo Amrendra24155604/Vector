@@ -17,6 +17,7 @@ import {
   MatchGearsIcon,
   CardIconShell,
 } from "@/components/AnimatedCardIcons";
+import { GlareCard } from "@/components/GlareCard";
 import SleekDropdown from "@/components/SleekDropdown";
 
 
@@ -1312,7 +1313,7 @@ export default function InternshipMatchPage() {
 
             <TopBar title="Internship Match Agent" ctaLabel="Find Matches" />
 
-            <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+            <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
                 <div className="max-w-7xl mx-auto">
                     {/* Header */}
                     <section className="relative overflow-hidden select-none hero-shell p-6 sm:p-8 md:p-10 match-header rounded-t-[32px] rounded-b-none border-b-0 mb-0 sm:rounded-[32px] sm:border-b sm:mb-10">
@@ -1322,7 +1323,7 @@ export default function InternshipMatchPage() {
                         {/* Clipped background decoration container to match the hero-shell shape */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0 rounded-t-[32px] rounded-b-none sm:rounded-[32px]">
                             {/* Absolutely positioned giant static background decoration */}
-                            <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[760px] h-[380px] sm:w-[1000px] sm:h-[500px] md:w-[1200px] md:h-[600px] lg:w-[1400px] lg:h-[700px] translate-x-[15%] sm:translate-x-[18%] md:translate-x-[20%] lg:translate-x-[22%] -rotate-[8deg] opacity-65">
+                            <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-[55%] sm:left-auto sm:right-0 w-[760px] h-[380px] sm:w-[1000px] sm:h-[500px] md:w-[1200px] md:h-[600px] lg:w-[1400px] lg:h-[700px] sm:translate-x-[18%] md:translate-x-[20%] lg:translate-x-[22%] -rotate-[8deg] opacity-65">
                                 <AnimatedMatchAgentLogo />
                             </div>
                         </div>
@@ -1416,7 +1417,7 @@ export default function InternshipMatchPage() {
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`flex-1 sm:flex-none w-1/2 sm:w-[180px] px-2 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all capitalize flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 whitespace-nowrap ${activeTab === tab
+                                    className={`classy-vintage flex-1 sm:flex-none w-1/2 sm:w-[180px] px-2 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all capitalize flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 whitespace-nowrap ${activeTab === tab
                                         ? "wavy-blue-btn text-white border border-white/80 shadow-[0_0_8px_rgba(255,255,255,0.3)]"
                                         : "text-stone-400 bg-[#1a1716] border border-orange-500/10 hover:text-white hover:border-orange-500/20"
                                         }`}
@@ -1495,7 +1496,20 @@ export default function InternshipMatchPage() {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <OpportunityRadarIcon />
+                                                    <svg className="w-[28px] h-[28px] text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 32 32">
+                                                        <style>{`
+                                                            @keyframes search-spin {
+                                                                from { transform: rotate(0deg); }
+                                                                to { transform: rotate(360deg); }
+                                                            }
+                                                            .anim-search-spin {
+                                                                animation: search-spin 6s linear infinite;
+                                                                transform-origin: 14px 14px;
+                                                            }
+                                                        `}</style>
+                                                        <circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="2" fill="none" className="anim-search-spin" strokeDasharray="3 2" />
+                                                        <line x1="20" y1="20" x2="26" y2="26" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                                                    </svg>
                                                     Find Matches
                                                 </>
                                             )}
@@ -1730,26 +1744,71 @@ export default function InternshipMatchPage() {
                         </div>
                     )}
                 </div>
+
+                {/* How Internship Match Works — Glare Cards */}
+                <div className="mt-14 flex flex-col gap-6">
+                    <div className="flex flex-col gap-1.5 border-b border-orange-500/10 pb-3">
+                        <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 uppercase tracking-wider">
+                            <CardIconShell className="w-8 h-8 flex items-center justify-center">
+                                <OpportunityRadarIcon />
+                            </CardIconShell>
+                            MATCH AGENT SYSTEM GUIDE
+                        </h3>
+                        <p className="text-[10px] text-stone-500 uppercase tracking-widest">HOW THE INTERNSHIP MATCHING ENGINE WORKS</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                Icon: OpportunityRadarIcon,
+                                category: "Module 1 — Smart Search",
+                                title: "AI-Powered Opportunity Radar",
+                                desc: "Enter your target role, location, and desired remote preference. The AI Match Agent then scans live opportunities across our sourced database, surfacing internships and jobs most aligned to your profile skills, experience level, and stated preferences.",
+                                pills: ["Role Matching", "Location Filter", "Remote/Hybrid", "Skill Alignment"]
+                            },
+                            {
+                                Icon: MatchGearsIcon,
+                                category: "Module 2 — Profile Matching",
+                                title: "Compatibility Scoring Engine",
+                                desc: "Each result is scored against your saved profile skills, experience, and preferences. The engine applies weighted scoring across role relevance, company culture signals, and compensation range to rank results from best to good fit for your specific career stage.",
+                                pills: ["Compatibility Score", "Skill Weighting", "Role Relevance", "Culture Signals"]
+                            },
+                            {
+                                Icon: KanbanBoardIcon,
+                                category: "Module 3 — Kanban Pipeline",
+                                title: "Application Tracker Board",
+                                desc: "Drag saved internships through your personal pipeline: Saved → Applied → Interview → Offer. The Kanban board syncs with your Progress page so your application funnel stats update in real-time as you move cards between columns.",
+                                pills: ["Kanban Board", "Drag & Drop", "Status Sync", "Progress Feed"]
+                            }
+                        ].map((card, i) => (
+                            <GlareCard key={i} containerClassName="aspect-auto" className="flex flex-col justify-start gap-3 p-5 bg-[#1d0f0a]/90 border border-orange-600/30 rounded-[24px] text-left font-sans transition-colors hover:bg-[#2c170f]/95 hover:border-orange-500/50 overflow-hidden">
+                                <div className="flex items-center justify-between mb-0.5">
+                                    <CardIconShell className="w-9 h-9 flex items-center justify-center">
+                                        <card.Icon />
+                                    </CardIconShell>
+                                    <span className="text-[9px] uppercase tracking-widest text-orange-400/80 bg-orange-500/5 px-2 py-0.5 rounded-md border border-orange-500/10">
+                                        Module {i + 1}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-[9px] uppercase tracking-wider text-orange-400/60 block leading-none">{card.category}</span>
+                                    <h4 className="text-base font-semibold text-xl text-white mt-1 tracking-tight">{card.title}</h4>
+                                </div>
+                                <p className="text-xs text-stone-300 leading-relaxed font-sans">{card.desc}</p>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                    {card.pills.map((pill) => (
+                                        <span key={pill} className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] tracking-wider bg-orange-500/5 text-orange-300 border border-orange-500/10">
+                                            {pill}
+                                        </span>
+                                    ))}
+                                </div>
+                            </GlareCard>
+                        ))}
+                    </div>
+                </div>
             </main>
 
-            <nav className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-[#120f0e]/85 backdrop-blur-lg border-t border-orange-400/10 flex justify-around items-center px-4 pb-4 pt-2">
-                {[
-                    ["Dashboard", "dashboard", "/Dashboard"],
-                    ["Resume", "description", "/ResumeAnalyzer"],
-                    ["Match", "work_history", "/InternshipMatch"],
-                    ["Progress", "insights", "/Progress"]
-                ].map(([label, icon, href]) => (
-                    <a
-                        key={href}
-                        href={href}
-                        className={`flex flex-col items-center gap-0.5 ${"/InternshipMatch" === href ? "text-orange-300" : "text-stone-400"
-                            }`}
-                    >
-                        <span className="material-symbols-outlined text-[22px]">{icon}</span>
-                        <span className="text-[10px] font-semibold">{label}</span>
-                    </a>
-                ))}
-            </nav>
+
 
             <AnimatePresence>
                 {touchDragCard && (

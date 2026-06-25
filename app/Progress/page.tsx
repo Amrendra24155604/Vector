@@ -14,7 +14,11 @@ import {
   ApplicationFunnelIcon,
   RecentApplicationsIcon,
   PROGRESS_STAT_ICONS,
+  FeedbackTrendsIcon,
+  RocketGrowthIcon,
+  ConcentricGaugeIcon,
 } from "@/components/AnimatedCardIcons";
+import { GlareCard } from "@/components/GlareCard";
 
 const STATS = [
   { label: "Interviews Done", value: 0, change: "+0 this week", icon: "record_voice_over", color: "#f97316", chip: "chip-orange" },
@@ -267,7 +271,7 @@ export default function ProgressPage() {
       />
 
       <TopBar title="Career Progress Dashboard" />
-      <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+      <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <section className="relative overflow-hidden select-none hero-shell p-6 sm:p-8 md:p-10 progress-header rounded-t-[32px] rounded-b-none border-b-0 mb-0 sm:rounded-[32px] sm:border-b sm:mb-10">
@@ -368,22 +372,22 @@ export default function ProgressPage() {
           </section>
 
           {/* AI Nudge */}
-          <div className="soft-card p-4 sm:p-6 rounded-b-2xl sm:rounded-2xl progress-nudge-card rounded-t-none border-t-0 sm:border-t flex flex-col gap-3 font-mono">
-            <div className="flex items-center justify-between border-b border-orange-500/10 pb-3">
-              <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 font-mono uppercase tracking-wider">
-                <AiCoachIcon />
+          <div className="soft-card p-4 sm:p-6 rounded-b-2xl sm:rounded-2xl progress-nudge-card rounded-t-none border-t-0 sm:border-t flex flex-col gap-3 font-mono mb-6 sm:mb-8">
+            <div className="flex items-center justify-between border-b border-orange-500/10 pb-3 w-full">
+              <h3 className="font-headline-md text-[15px] xs:text-xs sm:text-sm text-white flex items-center gap-1.5 font-mono uppercase tracking-wider whitespace-nowrap flex-shrink-0">
+                <CardIconShell className="w-5 h-5 sm:w-6 sm:h-6 p-0 flex items-center justify-center overflow-hidden relative flex-shrink-0">
+                  <FeedbackTrendsIcon className="scale-[0.45] sm:scale-[0.55] origin-center absolute" />
+                </CardIconShell>
                 AI MOTIVATIONAL NUDGE
               </h3>
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-[11px] font-mono text-stone-500 uppercase tracking-widest">System Synced</span>
+              <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+                <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-[9px] sm:text-[11px] font-mono text-stone-500 uppercase tracking-widest whitespace-nowrap">System Synced</span>
               </div>
             </div>
             <div className="flow-root sm:flex sm:items-center gap-4">
               <div className="float-left sm:float-none mr-3 mb-1 sm:mr-0 sm:mb-0 flex-shrink-0">
-                <CardIconShell>
-                  <AiCoachIcon />
-                </CardIconShell>
+                <AiCoachIcon className="animate-spin-slow" />
               </div>
               <p className="text-sm text-white leading-relaxed clear-none">{isMobile ? getFirstSentence(statsData?.aiNudge || nudge.text) : (statsData?.aiNudge || nudge.text)}</p>
             </div>
@@ -394,21 +398,22 @@ export default function ProgressPage() {
             {displayStats.map((s) => {
               const StatIcon = PROGRESS_STAT_ICONS[s.icon] || AverageScoreIcon;
               return (
-              <div key={s.label} className="soft-card rounded-2xl p-4 flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                  <CardIconShell className="p-2">
-                    <StatIcon />
-                  </CardIconShell>
+                <div key={s.label} className="soft-card rounded-2xl p-4 flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <CardIconShell className="p-2">
+                      <StatIcon />
+                    </CardIconShell>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-white tracking-tight">{s.value}</p>
+                    <p className="text-xs font-normal text-stone-400 mt-0.5">{s.label}</p>
+                  </div>
+                  <span className={`${s.chip} text-[10px] px-2 py-0.5 rounded-full font-medium self-start`}>
+                    {s.change}
+                  </span>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold text-white tracking-tight">{s.value}</p>
-                  <p className="text-xs font-normal text-stone-400 mt-0.5">{s.label}</p>
-                </div>
-                <span className={`${s.chip} text-[10px] px-2 py-0.5 rounded-full font-medium self-start`}>
-                  {s.change}
-                </span>
-              </div>
-            );})}
+              );
+            })}
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 font-mono">
@@ -560,16 +565,71 @@ export default function ProgressPage() {
             </div>
           </div>
         </div>
+
+        {/* How Progress Tracking Works — Glare Cards */}
+        <div className="mt-14 flex flex-col gap-6">
+          <div className="flex flex-col gap-1.5 border-b border-orange-500/10 pb-3">
+            <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 uppercase tracking-wider">
+              <CardIconShell className="w-8 h-8 flex items-center justify-center">
+                <RocketGrowthIcon />
+              </CardIconShell>
+              PROGRESS INTELLIGENCE GUIDE
+            </h3>
+            <p className="text-[10px] text-stone-500 uppercase tracking-widest">HOW YOUR CAREER PROGRESS IS MEASURED</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                Icon: RocketGrowthIcon,
+                category: "Module 1 — Live Stats Engine",
+                title: "Unified Career Dashboard",
+                desc: "All six core metrics (interview scores, email count, applications, resume score, streak, avg performance) are pulled from your real activity across every Vector tool and aggregated here in real-time.",
+                pills: ["Interviews", "Emails", "Applications", "Resume Score"]
+              },
+              {
+                Icon: ConcentricGaugeIcon,
+                category: "Module 2 — Score Trajectory",
+                title: "Performance Charting",
+                desc: "Your weekly AI interview score is charted across a 7-day bar graph. Track if you're improving session-over-session. Each bar represents a session score. The trend line shows momentum across your last 7 completed mock interviews.",
+                pills: ["Weekly Scores", "Trend Line", "Peak Score", "Latest Score"]
+              },
+              {
+                Icon: AverageScoreIcon,
+                category: "Module 3 — Application Funnel",
+                title: "Funnel & Timeline Tracking",
+                desc: "Monitor your job pipeline from Saved → Applied → Interview → Offer. The funnel widget shows how many applications sit at each stage. Recent Applications shows the latest 5 tracked entries with live status badges.",
+                pills: ["Saved", "Applied", "Interview", "Offer"]
+              }
+            ].map((card, i) => (
+              <GlareCard key={i} containerClassName="aspect-auto" className="flex flex-col justify-start gap-3 p-5 bg-[#1d0f0a]/90 border border-orange-600/30 rounded-[24px] text-left font-sans transition-colors hover:bg-[#2c170f]/95 hover:border-orange-500/50 overflow-hidden">
+                <div className="flex items-center justify-between mb-0.5">
+                  <CardIconShell className="w-9 h-9 flex items-center justify-center">
+                    <card.Icon />
+                  </CardIconShell>
+                  <span className="text-[9px] uppercase tracking-widest text-orange-400/80 bg-orange-500/5 px-2 py-0.5 rounded-md border border-orange-500/10">
+                    Module {i + 1}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[9px] uppercase tracking-wider text-orange-400/60 block leading-none">{card.category}</span>
+                  <h4 className="text-base font-semibold text-xl text-white mt-1 tracking-tight">{card.title}</h4>
+                </div>
+                <p className="text-xs text-stone-300 leading-relaxed font-sans">{card.desc}</p>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {card.pills.map((pill) => (
+                    <span key={pill} className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] tracking-wider bg-orange-500/5 text-orange-300 border border-orange-500/10">
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </GlareCard>
+            ))}
+          </div>
+        </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-[#120f0e]/85 backdrop-blur-lg border-t border-orange-400/10 flex justify-around items-center px-4 pb-4 pt-2">
-        {[["Dashboard", "dashboard", "/Dashboard"], ["Resume", "description", "/ResumeAnalyzer"], ["Interview", "record_voice_over", "/MockInterview"], ["Progress", "insights", "/Progress"]].map(([label, icon, href]) => (
-          <a key={href} href={href} className={`flex flex-col items-center gap-0.5 ${href === "/Progress" ? "text-orange-300" : "text-stone-400"}`}>
-            <span className="material-symbols-outlined text-[22px]">{icon}</span>
-            <span className="text-[10px] font-semibold">{label}</span>
-          </a>
-        ))}
-      </nav>
+
     </div>
   );
 }

@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET || 'careerpilot_dev_secret_2024', {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    expiresIn: process.env.JWT_EXPIRES_IN || '90d',
   });
 
 export async function POST(req) {

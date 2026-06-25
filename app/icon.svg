@@ -1,0 +1,64 @@
+<svg width="32" height="32" viewBox="130 75 410 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="left-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#f97316" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="right-grad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74" stop-opacity="1" />
+      <stop offset="100%" stop-color="#f97316" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="full-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#f97316" stop-opacity="1" />
+      <stop offset="100%" stop-color="#fdba74" stop-opacity="1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <filter id="tipglow">
+      <feGaussianBlur stdDeviation="14" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <filter id="arrowglow">
+      <feGaussianBlur stdDeviation="1.8" result="blur" />
+      <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Left leg of V -->
+  <line x1="168" y1="110" x2="340" y2="295" stroke="url(#left-grad)" stroke-width="30" stroke-linecap="round" opacity="0.10" />
+  <line x1="168" y1="110" x2="340" y2="295" stroke="url(#left-grad)" stroke-width="15" stroke-linecap="round" opacity="0.22" />
+  <line x1="168" y1="110" x2="340" y2="295" stroke="url(#left-grad)" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Right leg of V -->
+  <line x1="512" y1="110" x2="340" y2="295" stroke="url(#right-grad)" stroke-width="30" stroke-linecap="round" opacity="0.10" />
+  <line x1="512" y1="110" x2="340" y2="295" stroke="url(#right-grad)" stroke-width="15" stroke-linecap="round" opacity="0.22" />
+  <line x1="512" y1="110" x2="340" y2="295" stroke="url(#right-grad)" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Glowing double/dashed lines -->
+  <polyline points="168,110 340,295 512,110" fill="none" stroke="url(#full-grad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity="0.08" />
+  <polyline points="168,110 340,295 512,110" fill="none" stroke="url(#full-grad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" />
+  <polyline points="168,110 340,295 512,110" fill="none" stroke="url(#full-grad)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Arrowhead detail on top right -->
+  <g filter="url(#arrowglow)">
+    <polygon points="512,110 487,175 451,141" fill="#fdba74" opacity="0.25" />
+    <polygon points="512,110 487,175 451,141" fill="#fdba74" />
+    <polygon points="512,110 481,166 456,146" fill="#fff" opacity="0.3" />
+    <circle cx="512" cy="110" r="7" fill="#fff" opacity="0.9" />
+  </g>
+
+  <!-- Core matching node details -->
+  <circle cx="340" cy="295" r="14" fill="none" stroke="#f97316" stroke-width="1.8" opacity="0.42" />
+  <circle cx="340" cy="295" r="14" fill="none" stroke="#fdba74" stroke-width="1" opacity="0.03" />
+
+  <!-- Center tip pulse -->
+  <g filter="url(#tipglow)">
+    <circle cx="340" cy="295" r="14" fill="#f97316" opacity="0.45" />
+    <circle cx="340" cy="295" r="9" fill="#f97316" />
+    <circle cx="340" cy="295" r="4" fill="#fdba74" />
+  </g>
+</svg>

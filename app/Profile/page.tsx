@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth";
+import { useAuth, getAvatarProps } from "@/lib/auth";
 import GridBackgroundDemo from "../Background/page";
 import TopBar from "@/components/TopBar";
 import Loader from "@/components/Loader";
@@ -58,6 +58,12 @@ export default function ProfilePage() {
     avatarUrl: "",
   });
 
+  const [profileImgError, setProfileImgError] = useState(false);
+
+  useEffect(() => {
+    setProfileImgError(false);
+  }, [form.avatarUrl]);
+
   /* populate from auth user */
   useEffect(() => {
     if (user) {
@@ -96,7 +102,7 @@ export default function ProfilePage() {
   if (loading || !user) {
     return (
       <div className="relative min-h-screen bg-[#0c0a09] flex items-center justify-center">
-        <Loader overlay title="CareerPilot" text="Loading Profile..." />
+        <Loader overlay title="Vector" text="Loading Profile..." />
       </div>
     );
   }
@@ -195,13 +201,7 @@ export default function ProfilePage() {
   }
 
   const displayName = form.name || user?.name || "User";
-  const initials = displayName
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-  const gradient = nameToGradient(displayName);
+  const { char, bgColor } = getAvatarProps(displayName);
   const skillsList = form.skills
     .split(",")
     .map((s) => s.trim())
@@ -409,19 +409,20 @@ export default function ProfilePage() {
                     <div
                       className="w-28 h-28 rounded-full avatar-ring overflow-hidden flex items-center justify-center text-3xl font-bold text-white"
                       style={{
-                        background: form.avatarUrl
+                        backgroundColor: form.avatarUrl && !profileImgError
                           ? undefined
-                          : `linear-gradient(135deg, ${gradient})`,
+                          : bgColor,
                       }}
                     >
-                      {form.avatarUrl ? (
+                      {form.avatarUrl && !profileImgError ? (
                         <img
                           src={form.avatarUrl}
                           alt={displayName}
                           className="w-full h-full object-cover"
+                          onError={() => setProfileImgError(true)}
                         />
                       ) : (
-                        <span>{initials}</span>
+                        <span>{char}</span>
                       )}
                     </div>
 
@@ -818,7 +819,7 @@ export default function ProfilePage() {
                       </p>
                     </div>
                     <Link
-                      href="/upgrade"
+                      href="/Upgrade"
                       className="interactive primary-blue px-8 py-3 rounded-xl text-sm font-semibold whitespace-nowrap"
                     >
                       Go Pro →

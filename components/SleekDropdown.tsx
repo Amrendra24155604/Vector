@@ -61,10 +61,12 @@ export default function SleekDropdown({
       {/* Sleek Minimal Dropdown Options Box */}
       {isOpen && (
         <div
-          className={`absolute z-[9999] rounded-xl bg-[#131110]/95 border border-orange-500/15 shadow-[0_12px_30px_rgba(0,0,0,0.7)] backdrop-blur-md overflow-hidden py-1`}
+          className={`absolute z-[9999] rounded-xl bg-[#131110]/95 border border-orange-500/15 shadow-[0_12px_30px_rgba(0,0,0,0.7)] backdrop-blur-md scrollbar-none py-1`}
           style={{
             width: menuWidth || "100%",
             minWidth: "120px",
+            maxHeight: "180px",
+            overflowY: "auto",
             ...(position === "up" ? { bottom: "100%", marginBottom: "4px" } : { top: "100%", marginTop: "4px" }),
             ...(align === "right" ? { right: 0 } : { left: 0 }),
           }}

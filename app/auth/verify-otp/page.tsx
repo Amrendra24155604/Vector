@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth";
 import GridBackgroundDemo from "../../Background/page";
 import Loader from "@/components/Loader";
+import { AIBrainIcon } from "@/components/Sidebar";
 
 function VerifyOtpContent() {
   const { verifyOtp, sendOtp } = useAuth();
@@ -113,12 +114,33 @@ function VerifyOtpContent() {
       <div className="relative z-20 w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-400/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-orange-300 text-[26px]" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
+          <div className="flex flex-col items-center mb-6">
+            {/* HUD Branding Capsule */}
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#181514]/60 border border-orange-500/15 backdrop-blur-md shadow-[0_0_20px_rgba(249,115,22,0.06),inset_0_0_12px_rgba(249,115,22,0.04)] select-none mb-3">
+              {/* Viewfinder Logo */}
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-600/15 to-amber-600/5 border border-orange-500/25 flex items-center justify-center flex-shrink-0 relative shadow-[0_0_12px_rgba(249,115,22,0.15)]">
+                <span className="absolute -top-0.5 -left-0.5 w-1 h-1 border-t border-l border-orange-400 rounded-tl-sm pointer-events-none" />
+                <span className="absolute -top-0.5 -right-0.5 w-1 h-1 border-t border-r border-orange-400 rounded-tr-sm pointer-events-none" />
+                <span className="absolute -bottom-0.5 -left-0.5 w-1 h-1 border-b border-l border-orange-400 rounded-bl-sm pointer-events-none" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-1 h-1 border-b border-r border-orange-400 rounded-br-sm pointer-events-none" />
+                <AIBrainIcon size={20} className="transform -translate-y-[0.5px]" />
+              </div>
+              {/* Vector Name */}
+              <span className="text-[16px] font-black tracking-[0.2em] bg-gradient-to-r from-white via-orange-300 to-orange-500 bg-clip-text text-transparent font-sans uppercase">
+                Vector
+              </span>
             </div>
-            <span className="text-2xl font-black text-white tracking-tighter">KareerPilot</span>
-          </Link>
+            {/* Sub-Tagline & Status Indicator */}
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-[9px] font-mono tracking-[0.18em] text-stone-400/90 uppercase text-center select-none">
+                Designed for Careers to Gain Direction
+              </span>
+              <div className="flex items-center gap-1.5 text-[8px] font-mono tracking-[0.25em] text-orange-400/60 uppercase select-none mt-0.5">
+                <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_#10b981]" />
+                SECURE_PORTAL_ACTIVE
+              </div>
+            </div>
+          </div>
           <h1 className="text-2xl font-bold text-white mb-2">Check your email</h1>
           <p className="text-sm text-stone-400">
             We sent a 6-digit code to{" "}
@@ -126,7 +148,7 @@ function VerifyOtpContent() {
           </p>
         </div>
 
-        <div className="soft-card rounded-3xl p-8">
+        <div className="deep-card p-8">
           {success ? (
             <div className="text-center py-4">
               <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
@@ -159,10 +181,10 @@ function VerifyOtpContent() {
                       value={digit}
                       onChange={(e) => handleChange(i, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(i, e)}
-                      className="w-12 h-14 text-center text-2xl font-bold text-white bg-[#1d1b1a] border rounded-xl outline-none transition-all"
+                      className="w-12 h-14 text-center text-2xl font-bold text-white bg-[#12100f] border rounded-xl outline-none transition-all focus:-translate-y-[2px] hud-input-orange"
                       style={{
-                        borderColor: digit ? "rgba(249,115,22,0.5)" : "rgba(251,146,60,0.15)",
-                        boxShadow: digit ? "0 0 0 3px rgba(249,115,22,0.08)" : "none",
+                        borderColor: digit ? "rgba(249,115,22,0.6)" : "rgba(255,255,255,0.08)",
+                        boxShadow: digit ? "0 0 15px rgba(249,115,22,0.15)" : "none",
                       }}
                     />
                   ))}
@@ -172,12 +194,36 @@ function VerifyOtpContent() {
               <button
                 onClick={() => handleVerify()}
                 disabled={loading || otp.join("").length !== 6}
-                className="interactive primary-blue w-full py-4 rounded-2xl font-bold text-white text-base flex items-center justify-center gap-3 mb-4"
+                className="interactive primary-blue w-full py-3.5 rounded-2xl font-bold text-white text-sm flex items-center justify-center gap-3 mb-4 transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
               >
                 {loading ? (
-                  <><svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity=".25"/><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg>Verifying...</>
+                  <><svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity=".25" /><path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" /></svg>Verifying...</>
                 ) : (
-                  <><span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>Verify Email</>
+                  <>
+                    <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <style>{`
+                        @keyframes hud-btn-spin {
+                          from { transform: rotate(0deg); }
+                          to { transform: rotate(360deg); }
+                        }
+                        @keyframes hud-btn-pulse {
+                          0%, 100% { transform: scale(0.85); opacity: 0.6; }
+                          50% { transform: scale(1.15); opacity: 1; }
+                        }
+                        .anim-hud-ring {
+                          animation: hud-btn-spin 6s linear infinite;
+                          transform-origin: center;
+                        }
+                        .anim-hud-core {
+                          animation: hud-btn-pulse 1.6s ease-in-out infinite;
+                          transform-origin: center;
+                        }
+                      `}</style>
+                      <circle cx="12" cy="12" r="8" strokeWidth="1.5" strokeDasharray="4 3" className="anim-hud-ring" />
+                      <circle cx="12" cy="12" r="3.5" fill="currentColor" className="anim-hud-core" />
+                    </svg>
+                    Verify Email
+                  </>
                 )}
               </button>
 
@@ -186,7 +232,7 @@ function VerifyOtpContent() {
                 <button
                   onClick={handleResend}
                   disabled={resending || cooldown > 0}
-                  className="text-orange-300 hover:text-orange-200 font-bold transition-colors disabled:opacity-50"
+                  className="text-orange-400 hover:text-orange-300 font-bold transition-colors disabled:opacity-50"
                 >
                   {resending ? "Sending..." : cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}
                 </button>
@@ -197,7 +243,7 @@ function VerifyOtpContent() {
 
         <p className="text-center text-sm text-stone-500 mt-6">
           Wrong email?{" "}
-          <Link href="/auth/register" className="text-orange-300 hover:text-orange-200 font-bold transition-colors">
+          <Link href="/auth/register" className="text-orange-400 hover:text-orange-300 font-bold transition-colors">
             Back to register →
           </Link>
         </p>

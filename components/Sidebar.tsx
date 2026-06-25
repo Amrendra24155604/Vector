@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { useAuth } from "@/lib/auth";
+import { useAuth, getAvatarProps } from "@/lib/auth";
 
 const COLLAPSED = 68;
 const EXPANDED = 260;
@@ -20,49 +20,82 @@ const DRAWER_SPRING = { type: "spring", stiffness: 280, damping: 28, mass: 0.9 }
 // ── CUSTOM HIGH-FIDELITY ANIMATED LOGOS ──
 
 // Brand / AI Brain Logo
-const AIBrainIcon = ({ size = 22, className = "", animate = true }: { size?: number; className?: string; animate?: boolean }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={`flex-shrink-0 relative z-10 ${animate ? "animate" : ""} ${className}`}>
-    <style>{`
-      .animate.brain-core-pulse, .animate .brain-core-pulse {
-        transform-origin: 12px 12px;
-        animation: brain-pulse 2.2s ease-in-out infinite;
-      }
-      .animate.synapse-glow, .animate .synapse-glow {
-        animation: syn-glow 1.5s ease-in-out infinite;
-      }
-      .animate.brain-orbit-ring, .animate .brain-orbit-ring {
-        transform-origin: 12px 12px;
-        animation: brain-orbit 10s linear infinite;
-      }
-      @keyframes brain-pulse {
-        0%, 100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px rgba(249,115,22,0.4)); }
-        50% { transform: scale(1.06); filter: brightness(1.25) drop-shadow(0 0 8px rgba(249,115,22,0.7)); }
-      }
-      @keyframes syn-glow {
-        0%, 100% { opacity: 0.3; transform: scale(0.9); }
-        50% { opacity: 1; transform: scale(1.1); }
-      }
-      @keyframes brain-orbit {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `}</style>
-    {/* Concentric telemetry orbit */}
-    <circle cx="12" cy="12" r="10.5" stroke="rgba(249,115,22,0.12)" strokeWidth="1" strokeDasharray="3 3" className="brain-orbit-ring" />
-    <circle cx="21" cy="8" r="1" fill="#fb923c" className="brain-orbit-ring" />
-    
-    {/* Left hemisphere brain lobes */}
-    <path d="M12 5C9.5 5 7.5 6.5 7.5 8.5C7.5 9 7.8 9.5 8 10C6.5 10.5 5.5 11.8 5.5 13.5C5.5 15.5 7 17 9 17C9.3 17 9.7 17 10 16.8C10.5 18 11.8 19 13.5 19" stroke="#fb923c" strokeWidth="1.8" strokeLinecap="round" className="brain-core-pulse" />
-    {/* Right hemisphere brain lobes */}
-    <path d="M12 5C14.5 5 16.5 6.5 16.5 8.5C16.5 9 16.2 9.5 16 10C17.5 10.5 18.5 11.8 18.5 13.5C18.5 15.5 17 17 15 17C14.7 17 14.3 17 14 16.8C13.5 18 12.2 19 10.5 19" stroke="#fdba74" strokeWidth="1.8" strokeLinecap="round" className="brain-core-pulse" transform="scale(-1, 1) translate(-24, 0)" />
-    
-    {/* Center processing synapse nodes */}
-    <line x1="12" y1="6.5" x2="12" y2="17.5" stroke="#f97316" strokeWidth="1.5" className="synapse-glow" />
-    <circle cx="12" cy="8.5" r="1.8" fill="#fff" className="synapse-glow" />
-    <circle cx="12" cy="12" r="1.8" fill="#fff" className="synapse-glow" />
-    <circle cx="12" cy="15.5" r="1.8" fill="#fff" className="synapse-glow" />
-  </svg>
-);
+export const AIBrainIcon = ({ size = 22, className = "", animate = true }: { size?: number; className?: string; animate?: boolean }) => {
+  const uniqueId = useId().replace(/:/g, "");
+  const leftGradId = `left-grad-${uniqueId}`;
+  const rightGradId = `right-grad-${uniqueId}`;
+  const fullGradId = `full-grad-${uniqueId}`;
+  const glowId = `glow-${uniqueId}`;
+  const tipglowId = `tipglow-${uniqueId}`;
+  const arrowglowId = `arrowglow-${uniqueId}`;
+
+  return (
+    <svg width={size} height={(size * 250) / 410} viewBox="130 75 410 250" xmlns="http://www.w3.org/2000/svg" className={`flex-shrink-0 relative z-10 ${className}`}>
+      <defs>
+        <linearGradient id={leftGradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ea580c" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#f97316" stopOpacity="1" />
+        </linearGradient>
+        <linearGradient id={rightGradId} x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#fdba74" stopOpacity="1" />
+          <stop offset="100%" stopColor="#f97316" stopOpacity="1" />
+        </linearGradient>
+        <linearGradient id={fullGradId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#ea580c" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#f97316" stopOpacity="1" />
+          <stop offset="100%" stopColor="#fdba74" stopOpacity="1" />
+        </linearGradient>
+
+        <filter id={glowId}>
+          <feGaussianBlur stdDeviation="8" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id={tipglowId}>
+          <feGaussianBlur stdDeviation="14" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id={arrowglowId}>
+          <feGaussianBlur stdDeviation="1.8" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      {/* Left leg of V */}
+      <line x1="168" y1="110" x2="340" y2="295" stroke={`url(#${leftGradId})`} strokeWidth="30" strokeLinecap="round" opacity="0.10" />
+      <line x1="168" y1="110" x2="340" y2="295" stroke={`url(#${leftGradId})`} strokeWidth="15" strokeLinecap="round" opacity="0.22" />
+      <line x1="168" y1="110" x2="340" y2="295" stroke={`url(#${leftGradId})`} strokeWidth="10" strokeLinecap="round" />
+
+      {/* Right leg of V */}
+      <line x1="512" y1="110" x2="340" y2="295" stroke={`url(#${rightGradId})`} strokeWidth="30" strokeLinecap="round" opacity="0.10" />
+      <line x1="512" y1="110" x2="340" y2="295" stroke={`url(#${rightGradId})`} strokeWidth="15" strokeLinecap="round" opacity="0.22" />
+      <line x1="512" y1="110" x2="340" y2="295" stroke={`url(#${rightGradId})`} strokeWidth="10" strokeLinecap="round" />
+
+      {/* Glowing double/dashed lines */}
+      <polyline points="168,110 340,295 512,110" fill="none" stroke={`url(#${fullGradId})`} strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" opacity="0.08" />
+      <polyline points="168,110 340,295 512,110" fill="none" stroke={`url(#${fullGradId})`} strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" opacity="0.18" />
+      <polyline points="168,110 340,295 512,110" fill="none" stroke={`url(#${fullGradId})`} strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+
+      {/* Arrowhead detail on top right - scaled up for mobile legibility */}
+      <g filter={`url(#${arrowglowId})`}>
+        <polygon points="512,110 487,175 451,141" fill="#fdba74" opacity="0.25" />
+        <polygon points="512,110 487,175 451,141" fill="#fdba74" />
+        <polygon points="512,110 481,166 456,146" fill="#fff" opacity="0.3" />
+        <circle cx="512" cy="110" r="7" fill="#fff" opacity="0.9" />
+      </g>
+
+      {/* Core matching node details */}
+      <circle cx="340" cy="295" r="14" fill="none" stroke="#f97316" strokeWidth="1.8" opacity="0.42" />
+      <circle cx="340" cy="295" r="14" fill="none" stroke="#fdba74" strokeWidth="1" opacity="0.03" />
+
+      {/* Center tip pulse */}
+      <g filter={`url(#${tipglowId})`}>
+        <circle cx="340" cy="295" r="14" fill="#f97316" opacity="0.45" />
+        <circle cx="340" cy="295" r="9" fill="#f97316" />
+        <circle cx="340" cy="295" r="4" fill="#fdba74" />
+      </g>
+    </svg>
+  );
+};
 
 // Home / Dashboard Icon
 const DashboardIcon = ({ active, animate }: { active: boolean; animate: boolean }) => (
@@ -92,10 +125,10 @@ const DashboardIcon = ({ active, animate }: { active: boolean; animate: boolean 
     <path d="M4 18A8 8 0 0 1 20 18" stroke={active ? "#fdba74" : "#78716c"} strokeWidth="1.8" strokeLinecap="round" />
     {/* Background dashboard ticks */}
     <path d="M7 13L8 14 M12 6V8 M17 13L16 14" stroke={active ? "rgba(253,186,116,0.4)" : "rgba(120,113,108,0.4)"} strokeWidth="1.5" strokeLinecap="round" />
-    
+
     {/* Sweeping Radar Arc */}
     <path d="M12 18 L19 14 A 8 8 0 0 0 12 10 Z" fill={active ? "rgba(251,146,60,0.12)" : "rgba(120,113,108,0.06)"} className="radar-sweep-arc" />
-    
+
     {/* Core node */}
     <circle cx="12" cy="18" r="2.8" fill={active ? "#f97316" : "#a8a29e"} />
     {/* Dial needle */}
@@ -236,7 +269,7 @@ const ColdEmailIcon = ({ active, animate }: { active: boolean; animate: boolean 
     {/* Background Envelope outline */}
     <rect x="2" y="6" width="16" height="12" rx="2" stroke={active ? "rgba(253,186,116,0.35)" : "rgba(120,113,108,0.3)"} strokeWidth="1.5" className="envelope-pulse-line" fill="none" />
     <path d="M2 7L10 12.5L18 7" stroke={active ? "rgba(249,115,22,0.3)" : "rgba(168,162,158,0.3)"} strokeWidth="1.2" className="envelope-pulse-line" />
-    
+
     {/* Gliding Paper Airplane representing Outreach */}
     <g className="plane-glide-path">
       <path d="M9 19L21 9L15 21L13 14L9 19Z" stroke={active ? "#fdba74" : "#78716c"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -276,12 +309,12 @@ const ProgressIcon = ({ active, animate }: { active: boolean; animate: boolean }
     {/* Grid System Background */}
     <line x1="4" y1="20" x2="21" y2="20" stroke={active ? "rgba(253,186,116,0.3)" : "rgba(120,113,108,0.3)"} strokeWidth="1.8" strokeLinecap="round" />
     <line x1="4" y1="4" x2="4" y2="20" stroke={active ? "rgba(253,186,116,0.3)" : "rgba(120,113,108,0.3)"} strokeWidth="1.8" strokeLinecap="round" />
-    
+
     {/* Dynamic Background histogram bars */}
     <rect x="5.5" y="13" width="1.5" height="7" rx="0.5" fill={active ? "rgba(253,186,116,0.15)" : "rgba(120,113,108,0.15)"} className="growth-bar-1" />
     <rect x="9.5" y="10" width="1.5" height="10" rx="0.5" fill={active ? "rgba(251,146,60,0.15)" : "rgba(168,162,158,0.15)"} className="growth-bar-2" />
     <rect x="13.5" y="7" width="1.5" height="13" rx="0.5" fill={active ? "rgba(249,115,22,0.15)" : "rgba(120,113,108,0.15)"} className="growth-bar-3" />
-    
+
     {/* Growth Curve */}
     <path d="M4 17C9 17 12 10 20 4" stroke={active ? "#fdba74" : "#a8a29e"} strokeWidth="2.2" strokeLinecap="round" className="growth-trajectory-line" />
     {/* Glowing climax point */}
@@ -398,7 +431,10 @@ const SHOW_NAV_PATHS = new Set([
   "/ResumeAnalyzer",
   "/ColdEmail",
   "/Progress",
-  "/Profile"
+  "/Profile",
+  "/Notifications",
+  "/Settings",
+  "/Upgrade"
 ]);
 
 function setSidebarVar(w: number) {
@@ -419,6 +455,13 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
+  const [sidebarImgError, setSidebarImgError] = useState(false);
+
+  useEffect(() => {
+    setSidebarImgError(false);
+  }, [user?.avatarUrl]);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [hoveredBottomIdx, setHoveredBottomIdx] = useState<number | null>(null);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -462,8 +505,28 @@ export default function Sidebar() {
     }
   }, [mobileOpen]);
 
-  // Don't render on landing / home
-  if (HIDDEN_PATHS.has(pathname)) return null;
+  const rootSegment = pathname.split("/")[1] || "";
+  const VALID_ROOT_SEGMENTS = new Set([
+    "",
+    "Dashboard",
+    "MockInterview",
+    "ResumeAnalyzer",
+    "InternshipMatch",
+    "ColdEmail",
+    "Progress",
+    "Profile",
+    "Notifications",
+    "Settings",
+    "Upgrade",
+    "LandingPage",
+    "auth",
+    "Background"
+  ]);
+
+  if (!VALID_ROOT_SEGMENTS.has(rootSegment)) return null;
+
+  // Don't render on landing / home / auth pages
+  if (HIDDEN_PATHS.has(pathname) || pathname.startsWith("/auth/")) return null;
 
   const handleEnter = () => { setOpen(true); setSidebarVar(EXPANDED); };
   const handleLeave = () => { setOpen(false); setSidebarVar(COLLAPSED); };
@@ -522,11 +585,16 @@ export default function Sidebar() {
         <div className="flex items-center h-16 px-[14px] gap-3 flex-shrink-0 overflow-hidden">
           <Link href="/LandingPage" className="flex items-center gap-3">
             <motion.div
-              className="brand-icon-wrapper w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-400/20 flex items-center justify-center flex-shrink-0"
-              whileHover={{ scale: 1.08, backgroundColor: "rgba(249,115,22,0.18)" }}
+              className="brand-icon-wrapper w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600/15 to-amber-600/5 border border-orange-500/25 flex items-center justify-center flex-shrink-0 relative shadow-[0_0_15px_rgba(249,115,22,0.18),inset_0_0_12px_rgba(249,115,22,0.1)] select-none"
+              whileHover={{ scale: 1.06, borderColor: "rgba(249,115,22,0.5)", boxShadow: "0 0 20px rgba(249,115,22,0.35), inset 0 0 10px rgba(249,115,22,0.2)" }}
               transition={{ type: "spring", stiffness: 500, damping: 25 }}
             >
-              <AIBrainIcon size={22} animate={open} />
+              {/* Unique high-tech corner viewfinder brackets for logo brand identity */}
+              <span className="absolute -top-0.5 -left-0.5 w-1.5 h-1.5 border-t border-l border-orange-400 rounded-tl-sm pointer-events-none" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 border-t border-r border-orange-400 rounded-tr-sm pointer-events-none" />
+              <span className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 border-b border-l border-orange-400 rounded-bl-sm pointer-events-none" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 border-b border-r border-orange-400 rounded-br-sm pointer-events-none" />
+              <AIBrainIcon size={34} animate={open} />
             </motion.div>
 
             <motion.div
@@ -535,7 +603,7 @@ export default function Sidebar() {
               transition={LABEL_SPRING}
             >
               <p className="text-[15px] font-semibold text-white font-sans leading-tight">
-                KareerPilot
+                Vector
               </p>
               <p className="text-[9px] uppercase tracking-[0.2em] text-stone-500 font-sans">
                 AI Career Coach
@@ -548,17 +616,33 @@ export default function Sidebar() {
         <div className="flex flex-col gap-0.5 flex-1 px-2 py-3 overflow-y-auto overflow-x-hidden">
           {NAV_ITEMS.map(({ href, icon, label }, i) => {
             const active = pathname === href || pathname.startsWith(href + "/");
+            const getScaleAndX = (index: number) => {
+              if (hoveredIdx === null) return { scale: 1, x: 0 };
+              const dist = Math.abs(hoveredIdx - index);
+              if (open) {
+                if (dist === 0) return { scale: 1.03, x: 2 };
+                if (dist === 1) return { scale: 1.015, x: 1 };
+                return { scale: 1, x: 0 };
+              } else {
+                if (dist === 0) return { scale: 1.06, x: 3 };
+                if (dist === 1) return { scale: 1.03, x: 1.5 };
+                return { scale: 1, x: 0 };
+              }
+            };
             return (
               <motion.div
                 key={href}
+                onMouseEnter={() => setHoveredIdx(i)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                animate={getScaleAndX(i)}
+                transition={{ type: "spring", stiffness: 120, damping: 20, mass: 1 }}
+                style={{ originX: 0 }}
               >
                 <Link
                   href={href}
-                  className={`${linkBase} ${
-                    open ? "justify-start gap-3.5 py-3 px-4" : "justify-center gap-0 py-3 px-0"
-                  } ${
-                    active ? "" : "text-stone-400 hover:text-white"
-                  }`}
+                  className={`${linkBase} ${open ? "justify-start gap-3.5 py-3 px-4" : "justify-center gap-0 py-3 px-0"
+                    } ${active ? "" : "text-stone-400 hover:text-white"
+                    }`}
                   style={active ? activeStyle : {}}
                 >
 
@@ -600,9 +684,9 @@ export default function Sidebar() {
           {/* Pro card — always in DOM, animates via maxHeight so it never pops */}
           <motion.div
             animate={{
-              maxHeight: open ? 160 : 0,
-              opacity: open ? 1 : 0,
-              marginBottom: open ? 10 : 0,
+              maxHeight: (open && !user?.isPro) ? 160 : 0,
+              opacity: (open && !user?.isPro) ? 1 : 0,
+              marginBottom: (open && !user?.isPro) ? 10 : 0,
             }}
             transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
             style={{ overflow: "hidden" }}
@@ -612,42 +696,66 @@ export default function Sidebar() {
               <p className="text-[11px] text-stone-400 mb-2 font-sans leading-relaxed">
                 Unlock unlimited AI simulations and expert reviews.
               </p>
-              <motion.button
-                className="interactive primary-blue w-full py-2 rounded-lg text-xs font-medium text-white font-sans"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 500, damping: 22 }}
-              >
-                Upgrade to Pro
-              </motion.button>
+              <Link href="/Upgrade" className="block w-full">
+                <motion.button
+                  className="interactive primary-blue w-full py-2 rounded-lg text-xs font-medium text-white font-sans cursor-pointer"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 22 }}
+                >
+                  Upgrade to Pro
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
 
-          {BOTTOM_ITEMS.map(({ href, icon, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`${linkBase} ${
-                open ? "justify-start gap-3.5 py-3 px-4" : "justify-center gap-0 py-3 px-0"
-              } text-stone-400 hover:text-white`}
-            >
-
-              <div className="flex-shrink-0 relative z-10 sidebar-icon-wrapper">
-                <SidebarIcon icon={icon} active={false} animate={open} />
-              </div>
-              <motion.span
-                animate={{
-                  opacity: open ? 1 : 0,
-                  x: open ? 0 : -6,
-                  display: open ? "inline-block" : "none"
-                }}
-                transition={LABEL_SPRING}
-                className="text-[15px] font-medium whitespace-nowrap font-sans relative z-10 sidebar-text-label"
+          {BOTTOM_ITEMS.map(({ href, icon, label }, i) => {
+            const getBottomScaleAndX = (index: number) => {
+              if (hoveredBottomIdx === null) return { scale: 1, x: 0 };
+              const dist = Math.abs(hoveredBottomIdx - index);
+              if (open) {
+                if (dist === 0) return { scale: 1.03, x: 2 };
+                if (dist === 1) return { scale: 1.015, x: 1 };
+                return { scale: 1, x: 0 };
+              } else {
+                if (dist === 0) return { scale: 1.06, x: 3 };
+                if (dist === 1) return { scale: 1.03, x: 1.5 };
+                return { scale: 1, x: 0 };
+              }
+            };
+            return (
+              <motion.div
+                key={href}
+                onMouseEnter={() => setHoveredBottomIdx(i)}
+                onMouseLeave={() => setHoveredBottomIdx(null)}
+                animate={getBottomScaleAndX(i)}
+                transition={{ type: "spring", stiffness: 120, damping: 20, mass: 1 }}
+                style={{ originX: 0 }}
               >
-                {label}
-              </motion.span>
-            </Link>
-          ))}
+                <Link
+                  href={href}
+                  className={`${linkBase} ${open ? "justify-start gap-3.5 py-3 px-4" : "justify-center gap-0 py-3 px-0"
+                    } text-stone-400 hover:text-white`}
+                >
+
+                  <div className="flex-shrink-0 relative z-10 sidebar-icon-wrapper">
+                    <SidebarIcon icon={icon} active={false} animate={open} />
+                  </div>
+                  <motion.span
+                    animate={{
+                      opacity: open ? 1 : 0,
+                      x: open ? 0 : -6,
+                      display: open ? "inline-block" : "none"
+                    }}
+                    transition={LABEL_SPRING}
+                    className="text-[15px] font-medium whitespace-nowrap font-sans relative z-10 sidebar-text-label"
+                  >
+                    {label}
+                  </motion.span>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </motion.nav>
 
@@ -660,11 +768,19 @@ export default function Sidebar() {
           borderBottom: "1px solid rgba(251,146,60,0.10)",
         }}
       >
-        <Link href="/LandingPage" className="flex items-center gap-2">
-          <div className="brand-icon-wrapper w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-400/20 flex items-center justify-center">
-            <AIBrainIcon size={20} animate={true} />
+        <Link href="/LandingPage" className="flex items-center gap-2.5">
+          <div className="brand-icon-wrapper w-9 h-9 rounded-lg bg-gradient-to-br from-orange-600/15 to-amber-600/5 border border-orange-500/25 flex items-center justify-center flex-shrink-0 relative shadow-[0_0_12px_rgba(249,115,22,0.15)] select-none">
+            {/* Viewfinder brackets - fixed standard classes */}
+            <span className="absolute -top-0.5 -left-0.5 w-1.5 h-1.5 border-t-[1.5px] border-l-[1.5px] border-orange-400 rounded-tl-sm pointer-events-none" />
+            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 border-t-[1.5px] border-r-[1.5px] border-orange-400 rounded-tr-sm pointer-events-none" />
+            <span className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 border-b-[1.5px] border-l-[1.5px] border-orange-400 rounded-bl-sm pointer-events-none" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 border-b-[1.5px] border-r-[1.5px] border-orange-400 rounded-br-sm pointer-events-none" />
+            <AIBrainIcon size={24} className="transform -translate-y-[0.5px]" animate={true} />
           </div>
-          <span className="text-[15px] font-semibold text-white font-sans">KareerPilot</span>
+          <div className="flex flex-col justify-center text-left">
+            <span className="text-[15px] font-black tracking-tight leading-none bg-gradient-to-r from-white to-orange-400 bg-clip-text text-transparent font-sans">Vector</span>
+            <span className="text-[8px] uppercase tracking-[0.18em] text-stone-500 font-sans mt-0.5 font-bold">AI Career Coach</span>
+          </div>
         </Link>
         <motion.button
           onClick={() => setMobileOpen(true)}
@@ -727,12 +843,17 @@ export default function Sidebar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08, ...LABEL_SPRING }}
               >
-                <div className="brand-icon-wrapper w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-400/20 flex items-center justify-center">
-                  <AIBrainIcon size={22} animate={true} />
+                <div className="brand-icon-wrapper w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600/15 to-amber-600/5 border border-orange-500/25 flex items-center justify-center flex-shrink-0 relative shadow-[0_0_15px_rgba(249,115,22,0.18)] select-none">
+                  {/* Viewfinder brackets */}
+                  <span className="absolute -top-0.5 -left-0.5 w-1.5 h-1.5 border-t border-l border-orange-400 rounded-tl-sm pointer-events-none" />
+                  <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 border-t border-r border-orange-400 rounded-tr-sm pointer-events-none" />
+                  <span className="absolute -bottom-0.5 -left-0.5 w-1.5 h-1.5 border-b border-l border-orange-400 rounded-bl-sm pointer-events-none" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 border-b border-r border-orange-400 rounded-br-sm pointer-events-none" />
+                  <AIBrainIcon size={26} className="transform -translate-y-[0.5px]" animate={true} />
                 </div>
-                <div>
-                  <p className="text-lg font-semibold text-white font-sans">KareerPilot</p>
-                  <p className="text-[10px] uppercase tracking-widest text-stone-500 font-sans">
+                <div className="flex flex-col justify-center text-left">
+                  <p className="text-[16px] font-black tracking-tight leading-none bg-gradient-to-r from-white to-orange-400 bg-clip-text text-transparent font-sans">Vector</p>
+                  <p className="text-[9px] uppercase tracking-[0.18em] text-stone-500 font-sans mt-1 font-bold">
                     AI Career Coach
                   </p>
                 </div>
@@ -821,20 +942,37 @@ export default function Sidebar() {
                 )}
                 {/* Icon wrapper */}
                 <div className="flex-shrink-0 relative z-10 sidebar-icon-wrapper flex items-center justify-center">
-                  {icon === "profile" && user?.avatarUrl ? (
-                    <div
-                      className={`w-[22px] h-[22px] rounded-full overflow-hidden border transition-all duration-300 ${
-                        active
-                          ? "border-orange-400 shadow-[0_0_8px_#ea580c]"
-                          : "border-stone-500"
-                      }`}
-                    >
-                      <img
-                        src={user.avatarUrl}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                  {icon === "profile" ? (
+                    user?.avatarUrl && !sidebarImgError ? (
+                      <div
+                        className={`w-[22px] h-[22px] rounded-full overflow-hidden border transition-all duration-300 ${active
+                            ? "border-orange-400 shadow-[0_0_8px_#ea580c]"
+                            : "border-stone-500"
+                          }`}
+                      >
+                        <img
+                          src={user.avatarUrl}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                          onError={() => setSidebarImgError(true)}
+                        />
+                      </div>
+                    ) : (
+                      (() => {
+                        const { char, bgColor } = getAvatarProps(user?.name);
+                        return (
+                          <div
+                            className={`w-[22px] h-[22px] rounded-full overflow-hidden border transition-all duration-300 flex items-center justify-center text-[9px] font-bold text-white ${active
+                                ? "border-orange-400 shadow-[0_0_8px_#ea580c]"
+                                : "border-stone-500"
+                              }`}
+                            style={{ backgroundColor: bgColor }}
+                          >
+                            <span>{char}</span>
+                          </div>
+                        );
+                      })()
+                    )
                   ) : (
                     <SidebarIcon icon={icon} active={active} animate={true} />
                   )}

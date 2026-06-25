@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Airborne 86';
+  src: url('/fonts/Airborne86.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Artemis';
+  src: url('/fonts/Artemis.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aeroxys';
+  src: url('/fonts/Aeroxys.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Classy Vintage';
+  src: url('/fonts/ClassyVintage.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── CareerPilot Design System ─────────────────────────────── */
 :root {
   /* Sidebar layout */
@@ -276,7 +308,7 @@ body {
   position: absolute;
   inset: 0;
   background-color: transparent !important;
-  background-image: 
+  background-image:
     linear-gradient(45deg, transparent 16.2px, rgba(255, 255, 255, 1) 16.2px, rgba(255, 255, 255, 1) 17.7px, transparent 17.7px),
     linear-gradient(45deg, transparent 16.2px, rgba(255, 255, 255, 1) 16.2px, rgba(255, 255, 255, 1) 17.7px, transparent 17.7px) !important;
   background-position: left bottom, right top !important;
@@ -383,8 +415,13 @@ body {
   }
 }
 
+.classy-vintage {
+  font-family: 'Classy Vintage', sans-serif !important;
+}
+
 .wavy-blue-btn,
 .primary-blue {
+  font-family: 'Classy Vintage', sans-serif !important;
   background: transparent !important;
   border: none !important;
   border-radius: 0px !important;
@@ -418,7 +455,7 @@ body {
   position: absolute;
   inset: 0;
   background-color: transparent !important;
-  background-image: 
+  background-image:
     linear-gradient(45deg, transparent 7.7px, rgba(255, 255, 255, 1) 7.7px, rgba(255, 255, 255, 1) 9.2px, transparent 9.2px),
     linear-gradient(45deg, transparent 7.7px, rgba(255, 255, 255, 1) 7.7px, rgba(255, 255, 255, 1) 9.2px, transparent 9.2px) !important;
   background-position: left bottom, right top !important;
@@ -489,6 +526,7 @@ body {
 }
 
 .orange-ghost {
+  font-family: 'Classy Vintage', sans-serif !important;
   border: 1px solid #f97316;
   color: #fdba74;
   background: rgba(249, 115, 22, 0.04);
@@ -837,4 +875,193 @@ body.no-scroll {
   height: 100% !important;
   max-height: 100vh !important;
   touch-action: none !important;
+}
+
+/* ─── Global Icon Animations ───────────────────────────────── */
+@keyframes spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 15s linear infinite;
+}
+
+/* ─── Webkit Autocomplete Background Reset ────────────────────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #12100f inset !important;
+  -webkit-text-fill-color: #e8e1df !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ─── HUD Form Input Icon Animations on Focus ─────────────────── */
+@keyframes icon-bounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes lock-shimmy {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes icon-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes school-tilt {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+.group:focus-within .icon-animate-mail {
+  animation: icon-bounce 1.2s ease-in-out infinite;
+}
+
+.group:focus-within .icon-animate-lock {
+  animation: lock-shimmy 0.8s ease-in-out infinite;
+}
+
+.group:focus-within .icon-animate-person {
+  animation: icon-pulse 1.2s ease-in-out infinite;
+}
+
+.group:focus-within .icon-animate-school {
+  animation: school-tilt 1.5s ease-in-out infinite;
+}
+
+.group:focus-within .icon-animate-work {
+  animation: icon-bounce 1.2s ease-in-out infinite;
+}
+
+/* ─── HUD Input Focus Animations ────────────────────────────── */
+@keyframes border-glow-pulse-orange {
+
+  0%,
+  100% {
+    border-color: rgba(249, 115, 22, 0.8);
+    box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.25), 0 0 0 4px rgba(249, 115, 22, 0.1);
+  }
+
+  50% {
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 4px 10px -6px rgba(249, 115, 22, 0.15), 0 0 0 2px rgba(249, 115, 22, 0.05);
+  }
+}
+
+@keyframes border-glow-pulse-red {
+
+  0%,
+  100% {
+    border-color: rgba(239, 68, 68, 0.8);
+    box-shadow: 0 8px 20px -6px rgba(239, 68, 68, 0.25), 0 0 0 4px rgba(239, 68, 68, 0.1);
+  }
+
+  50% {
+    border-color: rgba(239, 68, 68, 0.45);
+    box-shadow: 0 4px 10px -6px rgba(239, 68, 68, 0.15), 0 0 0 2px rgba(239, 68, 68, 0.05);
+  }
+}
+
+.hud-input-orange {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hud-input-orange:focus {
+  animation: border-glow-pulse-orange 2s infinite ease-in-out;
+  background-color: #141110 !important;
+  outline: none !important;
+}
+
+.hud-input-red {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hud-input-red:focus {
+  animation: border-glow-pulse-red 2s infinite ease-in-out;
+  background-color: #141110 !important;
+  outline: none !important;
+}
+
+.hud-input-group {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hud-input-group:focus-within {
+  transform: translateY(-2px);
 }

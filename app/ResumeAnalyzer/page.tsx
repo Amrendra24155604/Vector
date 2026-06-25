@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import { CanvasText } from "@/components/CanvasText";
 import { AnimatedResumeAnalyzerLogo } from "@/components/AnimatedResumeAnalyzerLogo";
 import { ResumeScannerIcon, AtsScoreGaugeIcon, HistoryGraphIcon, SettingsTuneIcon, DocumentFileIcon, CardIconShell } from "@/components/AnimatedCardIcons";
+import { GlareCard } from "@/components/GlareCard";
 
 
 const DEFAULT_SUGGESTIONS = [
@@ -725,7 +726,7 @@ export default function ResumeAnalyzerPage() {
 
             <TopBar title="Resume Analyzer" ctaLabel="Download Report" />
 
-            <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+            <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
                 <div className="max-w-7xl mx-auto">
                     {/* Header */}
                     <section className="relative overflow-hidden select-none hero-shell p-6 sm:p-8 md:p-10 resume-header rounded-t-[32px] rounded-b-none border-b-0 mb-0 sm:rounded-[32px] sm:border-b sm:mb-10">
@@ -965,9 +966,41 @@ export default function ResumeAnalyzerPage() {
                                     disabled={!file || analyzing}
                                     className="interactive wavy-blue-btn w-full py-3.5 sm:py-5 rounded-xl sm:rounded-2xl font-sans font-medium text-white text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 disabled:opacity-40 mt-2"
                                 >
-                                    <span className="material-symbols-outlined text-[20px] sm:text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                                        {analyzing ? "sync" : "auto_fix_high"}
-                                    </span>
+                                    {analyzing ? (
+                                        <svg className="w-[28px] h-[28px] text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <style>{`
+                                                @keyframes laser-scan-fast {
+                                                    0%, 100% { transform: translateY(0); opacity: 0.4; }
+                                                    50% { transform: translateY(12px); opacity: 1; filter: drop-shadow(0 0 3px #fff); }
+                                                }
+                                                .anim-laser-line-fast {
+                                                    animation: laser-scan-fast 0.8s ease-in-out infinite;
+                                                }
+                                            `}</style>
+                                            <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" strokeWidth="2" />
+                                            <line x1="8" y1="7" x2="16" y2="7" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="8" y1="11" x2="16" y2="11" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="8" y1="15" x2="13" y2="15" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="3" y1="6" x2="21" y2="6" strokeWidth="2" strokeLinecap="round" className="anim-laser-line-fast" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-[28px] h-[28px] text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <style>{`
+                                                @keyframes laser-scan {
+                                                    0%, 100% { transform: translateY(0); opacity: 0.4; }
+                                                    50% { transform: translateY(12px); opacity: 1; }
+                                                }
+                                                .anim-laser-line {
+                                                    animation: laser-scan 2.4s ease-in-out infinite;
+                                                }
+                                            `}</style>
+                                            <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" strokeWidth="2" />
+                                            <line x1="8" y1="7" x2="16" y2="7" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="8" y1="11" x2="16" y2="11" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="8" y1="15" x2="13" y2="15" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+                                            <line x1="3" y1="6" x2="21" y2="6" strokeWidth="2" strokeLinecap="round" className="anim-laser-line" />
+                                        </svg>
+                                    )}
                                     <span className="hidden sm:inline">
                                         {analyzing ? "Analyzing with AI..." : `Analyze My Resume${file ? ` — ${file.name.replace(/\.[^.]+$/, "")}` : ""}`}
                                     </span>
@@ -1493,26 +1526,71 @@ export default function ResumeAnalyzerPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* How Resume Analysis Works — Glare Cards */}
+                <div className="mt-14 flex flex-col gap-6">
+                    <div className="flex flex-col gap-1.5 border-b border-orange-500/10 pb-3">
+                        <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 uppercase tracking-wider">
+                            <CardIconShell className="w-8 h-8 flex items-center justify-center">
+                                <ResumeScannerIcon />
+                            </CardIconShell>
+                            RESUME INTELLIGENCE GUIDE
+                        </h3>
+                        <p className="text-[10px] text-stone-500 uppercase tracking-widest">HOW THE RESUME SCANNER ENGINE WORKS</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                Icon: ResumeScannerIcon,
+                                category: "Step 1 — Resume Parsing",
+                                title: "Paste & Parse Your Content",
+                                desc: "Paste your raw resume text into the scanner. The AI tokenizes your content section-by-section — work experience, skills, education — extracting every claim, metric, and keyword for deep structural analysis.",
+                                pills: ["Text Parsing", "Section Detection", "Keyword Extraction", "Tokenization"]
+                            },
+                            {
+                                Icon: AtsScoreGaugeIcon,
+                                category: "Step 2 — ATS Compatibility Check",
+                                title: "ATS Score & Gap Analysis",
+                                desc: "The scanner simulates how an Applicant Tracking System reads your resume. It calculates an ATS compatibility score, flags missing action verbs, checks formatting robustness, and evaluates keyword density against real job descriptions.",
+                                pills: ["ATS Score", "Action Verbs", "Keyword Density", "Formatting Check"]
+                            },
+                            {
+                                Icon: HistoryGraphIcon,
+                                category: "Step 3 — AI Improvement Engine",
+                                title: "Bullet Rewrites & History",
+                                desc: "Receive AI-powered rewrites for your weakest bullet points with specific quantification suggestions. Every analyzed resume is saved to your history with its score, allowing you to track improvements across resume versions over time.",
+                                pills: ["Bullet Rewrites", "Quantification", "Score History", "Version Tracking"]
+                            }
+                        ].map((card, i) => (
+                            <GlareCard key={i} containerClassName="aspect-auto" className="flex flex-col justify-start gap-3 p-5 bg-[#1d0f0a]/90 border border-orange-600/30 rounded-[24px] text-left font-sans transition-colors hover:bg-[#2c170f]/95 hover:border-orange-500/50 overflow-hidden">
+                                <div className="flex items-center justify-between mb-0.5">
+                                    <CardIconShell className="w-9 h-9 flex items-center justify-center">
+                                        <card.Icon />
+                                    </CardIconShell>
+                                    <span className="text-[9px] uppercase tracking-widest text-orange-400/80 bg-orange-500/5 px-2 py-0.5 rounded-md border border-orange-500/10">
+                                        Step {i + 1}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-[9px] uppercase tracking-wider text-orange-400/60 block leading-none">{card.category}</span>
+                                    <h4 className="text-base font-semibold text-xl text-white mt-1 tracking-tight">{card.title}</h4>
+                                </div>
+                                <p className="text-xs text-stone-300 leading-relaxed font-sans">{card.desc}</p>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                    {card.pills.map((pill) => (
+                                        <span key={pill} className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] tracking-wider bg-orange-500/5 text-orange-300 border border-orange-500/10">
+                                            {pill}
+                                        </span>
+                                    ))}
+                                </div>
+                            </GlareCard>
+                        ))}
+                    </div>
+                </div>
             </main>
 
-            <nav className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-[#120f0e]/85 backdrop-blur-lg border-t border-orange-400/10 flex justify-around items-center px-4 pb-4 pt-2">
-                {[
-                    ["Dashboard", "dashboard", "/Dashboard"],
-                    ["Resume", "description", "/ResumeAnalyzer"],
-                    ["Interview", "record_voice_over", "/MockInterview"],
-                    ["Progress", "insights", "/Progress"]
-                ].map(([label, icon, href]) => (
-                    <a
-                        key={href}
-                        href={href}
-                        className={`flex flex-col items-center gap-0.5 ${"/ResumeAnalyzer" === href ? "text-orange-300" : "text-stone-400"
-                            }`}
-                    >
-                        <span className="material-symbols-outlined text-[22px]">{icon}</span>
-                        <span className="text-[10px] font-semibold">{label}</span>
-                    </a>
-                ))}
-            </nav>
+
         </div>
     );
 }

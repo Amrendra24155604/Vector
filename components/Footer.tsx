@@ -2,119 +2,111 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/lib/auth";
-import { useEffect, useState } from "react";
-
-// Curated list of useful AI career coaching tips
-const CAREER_TIPS = [
-  "💡 STAR Method: Detail Situation, Task, Action, and Result for behavioral interview questions.",
-  "💡 ATS Rule: Match the action verbs in your resume directly with target job requirements.",
-  "💡 Outreach: Keep cold emails under 150 words with a clear, singular call to action.",
-  "💡 Tone Check: Speak at a steady, confident pace of 130-150 words per minute during mocks.",
-  "💡 Resume Impact: Start every experience bullet point with a strong, quantifiable action verb.",
-  "💡 Strategy: Track weekly progress and practice mock interviews at least twice a week.",
-  "💡 Alumni Connection: Target university alumni on LinkedIn for a much higher response rate.",
-];
+import { AIBrainIcon } from "@/components/Sidebar";
 
 export default function Footer() {
   const pathname = usePathname();
-  const { user } = useAuth();
-  const [tip, setTip] = useState("");
 
-  // Select a dynamic tip based on pathname or random seed
-  useEffect(() => {
-    const index = Math.floor(Math.random() * CAREER_TIPS.length);
-    setTip(CAREER_TIPS[index]);
-  }, [pathname]);
+  const rootSegment = pathname.split("/")[1] || "";
+  const VALID_ROOT_SEGMENTS = new Set([
+    "",
+    "Dashboard",
+    "MockInterview",
+    "ResumeAnalyzer",
+    "InternshipMatch",
+    "ColdEmail",
+    "Progress",
+    "Profile",
+    "Notifications",
+    "Settings",
+    "Upgrade",
+    "LandingPage",
+    "auth",
+    "Background"
+  ]);
 
-  // Don't render on landing, login, register, or OTP pages
-  const isExcluded =
-    pathname === "/" ||
-    pathname === "/LandingPage" ||
-    pathname.startsWith("/auth");
+  // Don't render on login, register, OTP pages, or invalid routes
+  const isExcluded = pathname.startsWith("/auth") || !VALID_ROOT_SEGMENTS.has(rootSegment);
 
   if (isExcluded) return null;
 
-  return (
-    <footer className="sidebar-aware border-t border-orange-400/10 bg-[#0c0a09]/95 text-stone-400 py-6 px-4 md:py-8 md:px-8 relative overflow-hidden select-none pb-20 lg:pb-8">
-      {/* Subtle Background Glows */}
-      <div className="absolute -bottom-10 left-1/4 w-[300px] h-[100px] rounded-full bg-orange-500/5 blur-[70px] pointer-events-none" />
-      <div className="absolute -bottom-10 right-1/4 w-[200px] h-[80px] rounded-full bg-blue-500/5 blur-[60px] pointer-events-none" />
+  const isLanding = pathname === "/" || pathname === "/LandingPage";
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
-        {/* Branding & Status */}
-        <div className="flex flex-col gap-2.5">
-          <Link href="/Dashboard" className="flex items-center gap-1.5">
-            <div className="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-400/20 flex items-center justify-center">
-              <span className="material-symbols-outlined text-orange-300 text-base" style={{ fontVariationSettings: "'FILL' 1" }}>
-                psychology
+  return (
+    <footer className={`${isLanding ? "" : "sidebar-aware pb-28 lg:pb-8"} border-t border-orange-400/10 bg-[#0c0a09]/95 text-stone-400 py-3 px-4 md:py-8 md:px-8 relative overflow-hidden select-none`}>
+      {/* Subtle Background Glows */}
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[350px] h-[80px] rounded-full bg-orange-500/5 blur-[50px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6 relative z-10">
+        
+        {/* Left Side: Brand Logo, Website Name, and AI Coach Status */}
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 w-full md:w-auto justify-center md:justify-start">
+          <div className="flex flex-col gap-1 items-center sm:items-start">
+            <Link href="/Dashboard" className="flex items-center gap-2 group">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-600/15 to-amber-600/5 border border-orange-500/25 flex items-center justify-center flex-shrink-0 relative shadow-[0_0_10px_rgba(249,115,22,0.15)] group-hover:border-orange-400/40 transition-colors">
+                {/* Viewfinder brackets */}
+                <span className="absolute -top-0.5 -left-0.5 w-1 h-1 border-t border-l border-orange-400 rounded-tl-sm pointer-events-none" />
+                <span className="absolute -top-0.5 -right-0.5 w-1 h-1 border-t border-r border-orange-400 rounded-tr-sm pointer-events-none" />
+                <span className="absolute -bottom-0.5 -left-0.5 w-1 h-1 border-b border-l border-orange-400 rounded-bl-sm pointer-events-none" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-1 h-1 border-b border-r border-orange-400 rounded-br-sm pointer-events-none" />
+                <AIBrainIcon size={18} className="transform -translate-y-[0.5px]" />
+              </div>
+              <span className="text-[15px] font-black tracking-tight bg-gradient-to-r from-white to-orange-400 bg-clip-text text-transparent group-hover:to-orange-300 transition-all duration-300">
+                Vector
               </span>
-            </div>
-            <span className="text-base font-black text-white tracking-tighter">KareerPilot</span>
-          </Link>
-          <p className="text-[11px] md:text-xs text-stone-500 leading-normal max-w-xs">
-            Your personal AI career coach, empowering you to practice mock interviews, analyze resumes, and find top matches.
-          </p>
-          <div className="flex items-center gap-1.5 mt-1">
+            </Link>
+            <span className="text-[9px] font-mono tracking-wider text-stone-500 uppercase">
+              Designed for Careers to Gain Direction
+            </span>
+          </div>
+
+          <span className="hidden sm:inline text-stone-800">|</span>
+
+          <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_6px_#10b981]" />
-            <span className="text-[9px] tracking-wider font-mono text-emerald-400/90 uppercase">
+            <span className="text-[10px] tracking-widest font-mono text-emerald-400/90 uppercase">
               AI Coach Engine: Online
             </span>
           </div>
         </div>
 
-        {/* AI Career Assistant Tip of the Day */}
-        <div className="sm:col-span-2 flex flex-col gap-2">
-          <h4 className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-stone-500 font-mono">
-            COACH'S DAILY TIP
-          </h4>
-          <div className="bg-orange-500/5 border border-orange-400/10 rounded-xl p-3 relative overflow-hidden flex flex-col justify-center min-h-[60px] md:min-h-[70px]">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-orange-400/5 rounded-full blur-xl pointer-events-none" />
-            <p className="text-xs text-stone-200 font-medium leading-relaxed italic">
-              {tip || CAREER_TIPS[0]}
-            </p>
+        {/* Right Side: Social Media Links and Copyright */}
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 w-full md:w-auto justify-center md:justify-end">
+          {/* Social Icons */}
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://www.instagram.com/ankush__yadav_17" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="p-1.5 rounded-lg bg-[#120f0e] border border-orange-400/10 hover:border-orange-400/30 text-stone-500 hover:text-orange-400 transition-all duration-300 flex items-center justify-center shadow-sm"
+              title="Instagram"
+            >
+              <svg className="w-4 h-4 fill-none stroke-current stroke-[2]" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/amrendra-yadav-b28ba3321?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="p-1.5 rounded-lg bg-[#120f0e] border border-orange-400/10 hover:border-orange-400/30 text-stone-500 hover:text-orange-400 transition-all duration-300 flex items-center justify-center shadow-sm"
+              title="LinkedIn"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
           </div>
+
+          <span className="hidden sm:inline text-stone-800">|</span>
+
+          <p className="text-[10px] font-mono tracking-wide text-stone-500 uppercase">
+            &copy; {new Date().getFullYear()} Vector. All rights reserved.
+          </p>
         </div>
 
-        {/* Dynamic Navigation & User Actions */}
-        <div className="flex flex-col gap-2">
-          <h4 className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-stone-500 font-mono">
-            QUICK RUNWAYS
-          </h4>
-          <ul className="grid grid-cols-2 sm:flex sm:flex-col gap-1.5 text-[11px]">
-            <li>
-              <Link href="/Dashboard" className="hover:text-orange-300 transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[13px]">home</span> Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/MockInterview" className="hover:text-orange-300 transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[13px]">record_voice_over</span> AI Coach
-              </Link>
-            </li>
-            <li>
-              <Link href="/ResumeAnalyzer" className="hover:text-orange-300 transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[13px]">description</span> Resume
-              </Link>
-            </li>
-            <li>
-              <Link href="/Progress" className="hover:text-orange-300 transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[13px]">insights</span> Stats
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto border-t border-stone-900 mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-10 text-[10px] text-stone-500">
-        <div>
-          © {new Date().getFullYear()} KareerPilot. Professional AI Coaching.
-        </div>
-        <div className="flex gap-4">
-          <a href="#" className="hover:text-orange-300 transition-colors">Privacy</a>
-          <a href="#" className="hover:text-orange-300 transition-colors">Terms</a>
-          <a href="#" className="hover:text-orange-300 transition-colors">Support</a>
-        </div>
       </div>
     </footer>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/lib/auth";
+import { useAuth, getAvatarProps } from "@/lib/auth";
 import GridBackgroundDemo from "../Background/page";
 import { CanvasText } from "@/components/CanvasText";
 import TopBar from "@/components/TopBar";
@@ -23,6 +23,11 @@ import {
 
 export default function Page() {
   const { token, user } = useAuth();
+  const [dashboardImgError, setDashboardImgError] = useState(false);
+
+  useEffect(() => {
+    setDashboardImgError(false);
+  }, [user?.avatarUrl]);
   const [statsData, setStatsData] = useState<any>(null);
   const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
 
@@ -556,6 +561,7 @@ export default function Page() {
         }
 
         .orange-ghost {
+          font-family: 'Classy Vintage', sans-serif !important;
           border: 1px solid #f97316;
           color: #fdba74;
           background: rgba(249, 115, 22, 0.04);
@@ -747,7 +753,7 @@ export default function Page() {
 
           <TopBar title="Dashboard" />
 
-          <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+          <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
             <div className="max-w-7xl mx-auto">
               <section className="hero-shell rounded-[32px] p-8 md:p-10 mb-10 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-72 h-72 bg-orange-500/10 rounded-full blur-[120px]" />
@@ -1084,11 +1090,26 @@ export default function Page() {
                                   smart_toy
                                 </span>
                               </div>
-                              <img
-                                alt="User Avatar"
-                                className="w-8 h-8 rounded-full border-2 border-[#181615] object-cover"
-                                src={user?.avatarUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuB5rIby0qT7x8tQ1GUTLg11A38nutN8DwnWtpULrpErf2sILw9LL5MUu2yJgJJxGZssHmqwWil6wQ76D6A53SUDte-fM5LTVOxu0f90geB2GQbAwg9LY9OB1YA2FK34ItyiUw5ch5iZlJ6kjR-Trz_DjwpaCYlcvfXIaGcJEvkVETQLpeDVkp4q5Hha2l7ur3Up6JAz3S4rxv2_ovfGDvLEK9OGpcCBRQRYCBFIWdmh0k8kMpTgkTTHYreYV8WKjE-7gpet0rHGXF52"}
-                              />
+                              {user?.avatarUrl && !dashboardImgError ? (
+                                <img
+                                  alt="User Avatar"
+                                  className="w-8 h-8 rounded-full border-2 border-[#181615] object-cover"
+                                  src={user.avatarUrl}
+                                  onError={() => setDashboardImgError(true)}
+                                />
+                              ) : (
+                                (() => {
+                                  const { char, bgColor } = getAvatarProps(user?.name);
+                                  return (
+                                    <div
+                                      className="w-8 h-8 rounded-full border-2 border-[#181615] flex items-center justify-center text-[10px] font-bold text-white"
+                                      style={{ backgroundColor: bgColor }}
+                                    >
+                                      <span>{char}</span>
+                                    </div>
+                                  );
+                                })()
+                              )}
                             </div>
                             <span className="text-xs text-stone-500">AI Coach vs. You</span>
                           </div>
@@ -1121,7 +1142,7 @@ export default function Page() {
 
                           <button
                             onClick={() => setShowScheduleModal(true)}
-                            className="interactive w-full orange-soft font-semibold py-3.5 rounded-xl border border-orange-500/20 bg-orange-500/5 hover:bg-orange-500/10 flex items-center justify-center gap-2 group text-sm"
+                            className="interactive w-full orange-ghost font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 group text-sm"
                           >
                             Schedule Session
                             <span className="material-symbols-outlined transition-transform group-hover:scale-110">
@@ -1423,32 +1444,7 @@ export default function Page() {
             )}
           </AnimatePresence>
 
-          <nav className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-[#120f0e]/85 backdrop-blur-lg border-t border-orange-400/10 flex justify-around items-center px-4 pb-4 pt-2">
-            <Link className="flex flex-col items-center bg-orange-500/10 rounded-lg px-3 py-1 text-orange-300" href="/Dashboard">
-              <span className="material-symbols-outlined">home</span>
-              <span className="text-xs font-semibold">Home</span>
-            </Link>
-            <Link className="flex flex-col items-center text-stone-400" href="/MockInterview">
-              <span className="material-symbols-outlined">record_voice_over</span>
-              <span className="text-xs font-semibold">Interview</span>
-            </Link>
-            <Link className="flex flex-col items-center text-stone-400" href="/Progress">
-              <span className="material-symbols-outlined">insights</span>
-              <span className="text-xs font-semibold">Progress</span>
-            </Link>
-            <Link className="flex flex-col items-center text-stone-400" href="/Profile">
-              {user?.avatarUrl ? (
-                <img
-                  src={user.avatarUrl}
-                  alt={user.name || "User"}
-                  className="w-6 h-6 rounded-full object-cover border border-orange-400/20 mb-0.5"
-                />
-              ) : (
-                <span className="material-symbols-outlined">person</span>
-              )}
-              <span className="text-xs font-semibold">Profile</span>
-            </Link>
-          </nav>
+
 
 
         </div>

@@ -27,7 +27,7 @@ interface AuthContextType {
   register: (data: RegisterData) => Promise<{ email: string }>;
   verifyOtp: (email: string, otp: string) => Promise<void>;
   sendOtp: (email: string) => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
+  loginWithGoogle: (redirectToDashboard?: boolean) => Promise<any>;
   logout: () => void;
   updateUser: (updatedUser: AuthUser) => void;
 }
@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // ── Google ─────────────────────────────────────────────────────────────────
-  const loginWithGoogle = useCallback(async () => {
+  const loginWithGoogle = useCallback(async (redirectToDashboard: boolean = true) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
@@ -154,11 +154,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       storeAuth(data.token, data.user);
-      router.push('/Dashboard');
+      if (redirectToDashboard) {
+        router.push('/Dashboard');
+      }
+      return data;
     } catch (err: unknown) {
       // User cancelled popup — not a real error
       const code = (err as { code?: string }).code;
-      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return null;
       throw err;
     }
   }, [router, storeAuth]);
@@ -189,3 +192,34 @@ export function useAuth() {
   if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
   return ctx;
 }
+
+const AVATAR_COLORS = [
+  "#ef4444", // Red
+  "#ec4899", // Pink
+  "#a855f7", // Purple
+  "#6366f1", // Indigo
+  "#3b82f6", // Blue
+  "#0ea5e9", // Light Blue
+  "#06b6d4", // Cyan
+  "#14b8a6", // Teal
+  "#10b981", // Green
+  "#eab308", // Yellow
+  "#f97316", // Orange
+  "#f43f5e", // Rose
+];
+
+export function getAvatarProps(name?: string) {
+  const displayName = name?.trim() || "User";
+  const firstWord = displayName.split(" ")[0] || "U";
+  const char = firstWord.charAt(0).toUpperCase();
+
+  let hash = 0;
+  for (let i = 0; i < displayName.length; i++) {
+    hash = displayName.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const colorIndex = Math.abs(hash) % AVATAR_COLORS.length;
+  const bgColor = AVATAR_COLORS[colorIndex];
+
+  return { char, bgColor };
+}
+

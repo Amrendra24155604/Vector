@@ -41,7 +41,7 @@ export async function generateOutreach({ company, role, recruiterName, companyCo
   // Construct a prompt context
   const greeting = recruiterName ? `Dear ${recruiterName},` : "Dear Hiring Manager,";
   
-  const systemInstruction = `You are an elite, highly empathetic outbound recruiting expert and executive copywriting coach named KareerPilot AI. 
+  const systemInstruction = `You are an elite, highly empathetic outbound recruiting expert and executive copywriting coach named Vector AI. 
 Your goal is to write a highly compelling, personalized cold email and a matching LinkedIn direct message to a recruiter at ${company} for the target role of ${role}.
 
 Your drafts MUST sound completely human, genuine, and authentic. 

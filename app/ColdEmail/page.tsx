@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Loader from "@/components/Loader";
 import { CanvasText } from "@/components/CanvasText";
 import { AnimatedOutreachLogo } from "@/components/AnimatedOutreachLogo";
+import { GlareCard } from "@/components/GlareCard";
 import {
   CoachPreferencesIcon,
   OutreachMailHeroIcon,
@@ -259,7 +260,7 @@ export default function ColdEmailPage() {
       />
 
       <TopBar title="Cold Email Generator" ctaLabel="Generate Email" />
-      <main className="relative z-20 sidebar-aware pt-24 pb-20 px-6 min-h-screen">
+      <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">
         <div className="max-w-6xl w-full mx-auto">
           {/* Header */}
           <section className="relative overflow-hidden select-none hero-shell p-6 sm:p-8 md:p-10 email-header rounded-t-[32px] rounded-b-none border-b-0 mb-0 sm:rounded-[32px] sm:border-b sm:mb-10">
@@ -522,15 +523,72 @@ export default function ColdEmailPage() {
                 >
                   {generating ? (
                     <>
-                      <svg className="animate-spin w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity=".25" />
-                        <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                      <svg className="w-[28px] h-[28px] text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <style>{`
+                          @keyframes glide-hover-fast {
+                            0%, 100% { transform: translate(0, 0) scale(0.98); }
+                            50% { transform: translate(3px, -3px) scale(1.08); filter: drop-shadow(0 0 3px #fff); }
+                          }
+                          @keyframes wind-trail-fast {
+                            0% { stroke-dashoffset: 14; opacity: 0; }
+                            30%, 70% { opacity: 0.9; }
+                            100% { stroke-dashoffset: -14; opacity: 0; }
+                          }
+                          .anim-plane-fast {
+                            animation: glide-hover-fast 0.8s ease-in-out infinite;
+                            transform-origin: 12px 12px;
+                          }
+                          .anim-trail-1-fast {
+                            animation: wind-trail-fast 0.6s linear infinite;
+                            stroke-dasharray: 6 8;
+                          }
+                          .anim-trail-2-fast {
+                            animation: wind-trail-fast 0.6s linear infinite 0.3s;
+                            stroke-dasharray: 6 8;
+                          }
+                        `}</style>
+                        <line x1="3" y1="17" x2="10" y2="10" strokeWidth="1.5" strokeLinecap="round" className="anim-trail-1-fast" />
+                        <line x1="7" y1="21" x2="14" y2="14" strokeWidth="1.5" strokeLinecap="round" className="anim-trail-2-fast" />
+                        <g className="anim-plane-fast">
+                          <path d="M22 2L2 9.5l7.5 3.5L13 22l9-20z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          <line x1="22" y1="2" x2="9.5" y2="13" strokeWidth="1.5" strokeLinecap="round" />
+                        </g>
                       </svg>
                       <span>Researching & Crafting...</span>
                     </>
                   ) : (
                     <>
-                      <span className="material-symbols-outlined text-[20px] sm:text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_fix_high</span>
+                      <svg className="w-[28px] h-[28px] text-white flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <style>{`
+                          @keyframes glide-hover {
+                            0%, 100% { transform: translate(0, 0) scale(1); }
+                            50% { transform: translate(2px, -2px) scale(1.05); }
+                          }
+                          @keyframes wind-trail {
+                            0% { stroke-dashoffset: 14; opacity: 0; }
+                            30%, 70% { opacity: 0.8; }
+                            100% { stroke-dashoffset: -14; opacity: 0; }
+                          }
+                          .anim-plane {
+                            animation: glide-hover 2.4s ease-in-out infinite;
+                            transform-origin: 12px 12px;
+                          }
+                          .anim-trail-1 {
+                            animation: wind-trail 1.8s linear infinite;
+                            stroke-dasharray: 6 8;
+                          }
+                          .anim-trail-2 {
+                            animation: wind-trail 1.8s linear infinite 0.9s;
+                            stroke-dasharray: 6 8;
+                          }
+                        `}</style>
+                        <line x1="3" y1="17" x2="10" y2="10" strokeWidth="1.5" strokeLinecap="round" className="anim-trail-1" />
+                        <line x1="7" y1="21" x2="14" y2="14" strokeWidth="1.5" strokeLinecap="round" className="anim-trail-2" />
+                        <g className="anim-plane">
+                          <path d="M22 2L2 9.5l7.5 3.5L13 22l9-20z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          <line x1="22" y1="2" x2="9.5" y2="13" strokeWidth="1.5" strokeLinecap="round" />
+                        </g>
+                      </svg>
                       <span className="hidden sm:inline">Research Company & Generate Outreach Drafts</span>
                       <span className="inline sm:hidden">Generate Email</span>
                     </>
@@ -714,16 +772,71 @@ export default function ColdEmailPage() {
             </div>
           </div>
         </div>
+
+        {/* How It Works — Glare Cards */}
+        <div className="mt-14 flex flex-col gap-6">
+          <div className="flex flex-col gap-1.5 border-b border-orange-500/10 pb-3">
+            <h3 className="font-headline-md text-sm sm:text-base text-white flex items-center gap-2 uppercase tracking-wider">
+              <CardIconShell className="w-8 h-8 flex items-center justify-center">
+                <PaperAirplaneOutreachIcon />
+              </CardIconShell>
+              OUTREACH SYSTEM GUIDE
+            </h3>
+            <p className="text-[10px] text-stone-500 uppercase tracking-widest">HOW THE COLD EMAIL ENGINE WORKS</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "PaperAirplane",
+                category: "Step 1 — Company Research",
+                title: "Personalize With Context",
+                desc: "Paste the company name, recruiter name, and target role, then add 1–3 sentences of context about why you're a great fit. The AI uses this to craft emails that feel handwritten, not templated.",
+                pills: ["Company", "Role", "Recruiter", "Context"]
+              },
+              {
+                icon: "DraftQuill",
+                category: "Step 2 — Tone Selection",
+                title: "Match Your Voice",
+                desc: "Choose from Formal, Conversational, or Bold tone profiles. Formal suits big enterprise recruiters; Conversational works best for startups; Bold stands out in competitive markets where you need an immediate hook.",
+                pills: ["Formal", "Conversational", "Bold", "Tone-Matching"]
+              },
+              {
+                icon: "PaperAirplane2",
+                category: "Step 3 — Dual Output",
+                title: "Email + LinkedIn Message",
+                desc: "Every generation produces both a full cold email and a concise LinkedIn connection note. The email covers full story and value prop. The LinkedIn note is under 300 chars for maximum InMail accept rates.",
+                pills: ["Cold Email", "LinkedIn Note", "Copy-Ready", "History Saved"]
+              }
+            ].map((card, i) => (
+              <GlareCard key={i} containerClassName="aspect-auto" className="flex flex-col justify-start gap-3 p-5 bg-[#1d0f0a]/90 border border-orange-600/30 rounded-[24px] text-left font-sans transition-colors hover:bg-[#2c170f]/95 hover:border-orange-500/50 overflow-hidden">
+                <div className="flex items-center justify-between mb-0.5">
+                  <CardIconShell className="w-9 h-9 flex items-center justify-center">
+                    {i === 0 ? <PaperAirplaneOutreachIcon /> : i === 1 ? <DraftQuillIcon /> : <PaperAirplaneOutreachIcon />}
+                  </CardIconShell>
+                  <span className="text-[9px] uppercase tracking-widest text-orange-400/80 bg-orange-500/5 px-2 py-0.5 rounded-md border border-orange-500/10">
+                    Step {i + 1}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[9px] uppercase tracking-wider text-orange-400/60 block leading-none">{card.category}</span>
+                  <h4 className="text-base font-semibold text-xl text-white mt-1 tracking-tight">{card.title}</h4>
+                </div>
+                <p className="text-xs text-stone-300 leading-relaxed font-sans">{card.desc}</p>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {card.pills.map((pill) => (
+                    <span key={pill} className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] tracking-wider bg-orange-500/5 text-orange-300 border border-orange-500/10">
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </GlareCard>
+            ))}
+          </div>
+        </div>
       </main>
 
-      <nav className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-[#120f0e]/85 backdrop-blur-lg border-t border-orange-400/10 flex justify-around items-center px-4 pb-4 pt-2">
-        {[["Dashboard", "dashboard", "/Dashboard"], ["Resume", "description", "/ResumeAnalyzer"], ["Email", "mail", "/ColdEmail"], ["Progress", "insights", "/Progress"]].map(([label, icon, href]) => (
-          <a key={href} href={href} className={`flex flex-col items-center gap-0.5 ${href === "/ColdEmail" ? "text-orange-300" : "text-stone-400"}`}>
-            <span className="material-symbols-outlined text-[22px]">{icon}</span>
-            <span className="text-[10px] font-semibold">{label}</span>
-          </a>
-        ))}
-      </nav>
+
       <AnimatePresence>
         {deleteModal?.isOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

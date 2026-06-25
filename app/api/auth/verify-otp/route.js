@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET || 'careerpilot_dev_secret_2024', {
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    expiresIn: process.env.JWT_EXPIRES_IN || '90d',
   });
 
 export async function POST(req) {
@@ -14,7 +14,7 @@ export async function POST(req) {
     await dbConnect();
     const body = await req.json();
     const { email, otp } = body;
-    
+
     if (!email || !otp) {
       return NextResponse.json({ success: false, message: 'Email and OTP required' }, { status: 400 });
     }

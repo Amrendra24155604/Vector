@@ -34,6 +34,18 @@ function GlobalLoaderContent() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const loadingStartRef = useRef<number | null>(null);
+  const clickPathnameRef = useRef<string | null>(null);
+  const clickSearchParamsRef = useRef<string | null>(null);
+  const safetyTimeoutRef = useRef<any>(null);
+
+  // Clean up safety timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Monitor path and search param changes to hide the loader
   useEffect(() => {
@@ -43,6 +55,25 @@ function GlobalLoaderContent() {
     if (start === null) {
       setLoading(false);
       return;
+    }
+
+    const clickSearch = clickSearchParamsRef.current || "";
+    const clickSearchStr = clickSearch.startsWith("?") ? clickSearch.substring(1) : clickSearch;
+    const currentSearchStr = searchParams.toString();
+
+    const hasPathChanged =
+      pathname !== clickPathnameRef.current ||
+      currentSearchStr !== clickSearchStr;
+
+    if (!hasPathChanged) {
+      // Path hasn't changed yet, keep loader visible
+      return;
+    }
+
+    // Path has changed! Clear safety timeout
+    if (safetyTimeoutRef.current) {
+      clearTimeout(safetyTimeoutRef.current);
+      safetyTimeoutRef.current = null;
     }
 
     const duration = getLoadingDuration();
@@ -111,9 +142,20 @@ function GlobalLoaderContent() {
         return;
       }
 
-      // Record start time and display loader
+      // Record start time and path variables, then display loader
       loadingStartRef.current = Date.now();
+      clickPathnameRef.current = window.location.pathname;
+      clickSearchParamsRef.current = window.location.search;
       setLoading(true);
+
+      // Clear any existing safety timeout and start a new 8s fallback
+      if (safetyTimeoutRef.current) {
+        clearTimeout(safetyTimeoutRef.current);
+      }
+      safetyTimeoutRef.current = setTimeout(() => {
+        setLoading(false);
+        loadingStartRef.current = null;
+      }, 8000);
     };
 
     document.addEventListener("click", handleLinkClick);
