@@ -1067,47 +1067,51 @@ input:-webkit-autofill:active {
 }
 
 /* ─── GPU Layer Promotion for Animated SVG Elements ──────────── */
-/* Promote animated transforms to their own compositing layer     */
-.orbit-rotate-cw,
-.orbit-rotate-ccw,
-.float-streak,
-.float-metrics,
-.float-stats-left,
-.float-stats-right,
-.float-param-1,
-.float-param-2,
-.float-param-3,
-.vector-pulse-fwd,
-.flame-core,
-.bar-1,
-.bar-2,
-.bar-3,
-.hist-bar-1,
-.hist-bar-2,
-.hist-bar-3,
-.hist-bar-4,
-.voice-bar-1,
-.voice-bar-2,
-.voice-bar-3,
-.voice-bar-4,
-.voice-bar-5,
-.voice-bar-6,
-.bar-grow-1,
-.bar-grow-2,
-.bar-grow-3,
-.up-min-hand,
-.up-hour-hand,
-.up-rotate-cw,
-.scan-laser,
-.ats-hex-spin,
-.act-node-1,
-.act-node-2,
-.act-node-3,
-.trends-ripple-1,
-.trends-ripple-2,
-.trends-ripple-3,
-.animate-spin-slow {
-  will-change: transform;
+/* Desktop only — on mobile, too many compositing layers exhaust  */
+/* the GPU texture memory budget and CAUSE the very flickering    */
+/* we are trying to fix. Only promote on desktop (≥768px).        */
+@media (min-width: 768px) {
+  .orbit-rotate-cw,
+  .orbit-rotate-ccw,
+  .float-streak,
+  .float-metrics,
+  .float-stats-left,
+  .float-stats-right,
+  .float-param-1,
+  .float-param-2,
+  .float-param-3,
+  .vector-pulse-fwd,
+  .flame-core,
+  .bar-1,
+  .bar-2,
+  .bar-3,
+  .hist-bar-1,
+  .hist-bar-2,
+  .hist-bar-3,
+  .hist-bar-4,
+  .voice-bar-1,
+  .voice-bar-2,
+  .voice-bar-3,
+  .voice-bar-4,
+  .voice-bar-5,
+  .voice-bar-6,
+  .bar-grow-1,
+  .bar-grow-2,
+  .bar-grow-3,
+  .up-min-hand,
+  .up-hour-hand,
+  .up-rotate-cw,
+  .scan-laser,
+  .ats-hex-spin,
+  .act-node-1,
+  .act-node-2,
+  .act-node-3,
+  .trends-ripple-1,
+  .trends-ripple-2,
+  .trends-ripple-3,
+  .animate-spin-slow {
+    will-change: transform;
+  }
 }
 
 /* ─── Mobile: Disable all infinite SVG/icon animations ──────── */
@@ -1190,6 +1194,37 @@ input:-webkit-autofill:active {
 
   /* Remove drop-shadow filters on mobile — very expensive to repaint */
   [style*="drop-shadow"] {
+    filter: none !important;
+  }
+
+  /* ── Kill ALL sidebar icon continuous animations on mobile ────
+     These .animate child classes run infinite loops on every icon
+     in the bottom nav bar — 4 icons × multiple keyframes each.
+     CSS is a safety net; JS also passes animate={false} on mobile. */
+  .animate .gauge-needle-path,
+  .animate .radar-sweep-arc,
+  .animate .bounce-bar-1,
+  .animate .bounce-bar-2,
+  .animate .bounce-bar-3,
+  .animate .bounce-bar-4,
+  .animate .bounce-bar-5,
+  .animate .mic-ring-glow,
+  .animate .resume-laser-beam,
+  .animate .resume-text-lines,
+  .animate .gear-left-spin,
+  .animate .gear-right-spin,
+  .animate .matching-link-path,
+  .animate .plane-glide-path,
+  .animate .envelope-pulse-line,
+  .animate .growth-trajectory-line,
+  .animate .growth-beacon-dot,
+  .animate .growth-bar-1,
+  .animate .growth-bar-2,
+  .animate .growth-bar-3,
+  .animate .user-head-path,
+  .animate .help-bounce-element,
+  .animate .logout-arrow {
+    animation: none !important;
     filter: none !important;
   }
 

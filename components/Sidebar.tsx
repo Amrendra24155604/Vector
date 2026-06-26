@@ -456,6 +456,15 @@ export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
   const [sidebarImgError, setSidebarImgError] = useState(false);
+  // Detect mobile to disable expensive icon animations
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     setSidebarImgError(false);
@@ -876,7 +885,7 @@ export default function Sidebar() {
                       >
 
                         <div className="flex-shrink-0 relative z-10 sidebar-icon-wrapper">
-                          <SidebarIcon icon={icon} active={active} animate={true} />
+                          <SidebarIcon icon={icon} active={active} animate={!isMobile} />
                         </div>
                         <span className="text-[15px] font-medium font-sans relative z-10 sidebar-text-label">{label}</span>
                       </Link>
@@ -900,7 +909,7 @@ export default function Sidebar() {
                     className="flex items-center gap-3.5 py-2.5 px-4 rounded-lg text-stone-400 hover:text-white transition-all duration-200 hover:bg-white/5"
                   >
                     <div className="flex-shrink-0 relative z-10 sidebar-icon-wrapper">
-                      <SidebarIcon icon={icon} active={false} animate={true} />
+                      <SidebarIcon icon={icon} active={false} animate={!isMobile} />
                     </div>
                     <span className="text-[15px] font-medium font-sans sidebar-text-label">{label}</span>
                   </Link>
@@ -971,7 +980,7 @@ export default function Sidebar() {
                       })()
                     )
                   ) : (
-                    <SidebarIcon icon={icon} active={active} animate={true} />
+                    <SidebarIcon icon={icon} active={active} animate={!isMobile} />
                   )}
                 </div>
                 {/* Label text */}

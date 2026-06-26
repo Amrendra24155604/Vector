@@ -86,12 +86,31 @@ export default function GridBackgroundDemo() {
             opacity: 0;
           }
         }
+
+        /* ── Mobile: replace animated background with a static,
+           cheap version. All filter+blur+animation on fixed/large
+           elements is the primary source of mobile GPU flicker. ── */
+        @media (max-width: 767px) {
+          .bg-grid-drift-1,
+          .bg-grid-drift-2 {
+            animation: none !important;
+          }
+          .bg-glow-orb-1,
+          .bg-glow-orb-2,
+          .bg-shine-sweep {
+            display: none !important;
+          }
+          .bg-center-pulse {
+            animation: none !important;
+            opacity: 0.10 !important;
+          }
+        }
       `}</style>
 
       {/* Base grid */}
       <div
         className={cn(
-          "absolute inset-0",
+          "absolute inset-0 bg-grid-drift-1",
           "[background-size:40px_40px]",
           "[background-image:linear-gradient(to_right,rgba(249,115,22,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(249,115,22,0.18)_1px,transparent_1px)]"
         )}
@@ -103,7 +122,7 @@ export default function GridBackgroundDemo() {
       {/* Brighter glow grid */}
       <div
         className={cn(
-          "absolute inset-0 blur-[1px]",
+          "absolute inset-0 blur-[1px] bg-grid-drift-2",
           "[background-size:40px_40px]",
           "[background-image:linear-gradient(to_right,rgba(255,180,90,0.08)_2px,transparent_2px),linear-gradient(to_bottom,rgba(255,180,90,0.08)_2px,transparent_2px)]"
         )}
@@ -113,9 +132,9 @@ export default function GridBackgroundDemo() {
         }}
       />
 
-      {/* Main moving orange glow across screen */}
+      {/* Main moving orange glow across screen — hidden on mobile */}
       <div
-        className="absolute top-0 left-0 h-[46rem] w-[46rem] rounded-full"
+        className="absolute top-0 left-0 h-[46rem] w-[46rem] rounded-full bg-glow-orb-1"
         style={{
           background:
             "radial-gradient(circle, rgba(255,170,70,0.34) 0%, rgba(249,115,22,0.26) 24%, rgba(234,88,12,0.16) 46%, rgba(194,65,12,0.07) 62%, rgba(0,0,0,0) 76%)",
@@ -124,9 +143,9 @@ export default function GridBackgroundDemo() {
         }}
       />
 
-      {/* Secondary moving orange glow */}
+      {/* Secondary moving orange glow — hidden on mobile */}
       <div
-        className="absolute top-0 left-0 h-[34rem] w-[34rem] rounded-full"
+        className="absolute top-0 left-0 h-[34rem] w-[34rem] rounded-full bg-glow-orb-2"
         style={{
           background:
             "radial-gradient(circle, rgba(255,200,120,0.20) 0%, rgba(251,146,60,0.16) 28%, rgba(249,115,22,0.08) 54%, rgba(0,0,0,0) 74%)",
@@ -135,9 +154,9 @@ export default function GridBackgroundDemo() {
         }}
       />
 
-      {/* Visible center orange atmosphere */}
+      {/* Visible center orange atmosphere — static on mobile */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 bg-center-pulse"
         style={{
           background:
             "radial-gradient(circle at center, rgba(249,115,22,0.18) 0%, rgba(249,115,22,0.10) 22%, rgba(249,115,22,0.04) 40%, transparent 58%)",
@@ -145,9 +164,9 @@ export default function GridBackgroundDemo() {
         }}
       />
 
-      {/* Shine sweep */}
+      {/* Shine sweep — hidden on mobile */}
       <div
-        className="absolute inset-y-0 -left-1/3 w-2/3"
+        className="absolute inset-y-0 -left-1/3 w-2/3 bg-shine-sweep"
         style={{
           background:
             "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0) 35%, rgba(255,200,120,0.06) 44%, rgba(255,230,200,0.16) 50%, rgba(255,200,120,0.06) 56%, rgba(255,255,255,0) 64%, transparent 100%)",
