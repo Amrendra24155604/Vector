@@ -737,7 +737,7 @@ function KanbanColumn({
             data-drop-status={status}
         >
             <div
-                className="flex items-center justify-between px-3 py-2 rounded-xl bg-[#1d1b1a]/60 border backdrop-blur-md transition-all duration-300"
+                className="flex items-center justify-between px-3 py-2 rounded-xl bg-[#1d1b1a] border transition-all duration-300"
                 style={{
                     borderColor: isPulse ? color : "rgba(251, 146, 60, 0.1)",
                     boxShadow: isPulse ? `0 0 15px ${color}33` : undefined,
@@ -1299,6 +1299,38 @@ export default function InternshipMatchPage() {
             filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1)) drop-shadow(0 0 7.5px rgba(255, 255, 255, 0.85)) !important;
           }
         }
+
+        /* ─── Mobile: kill GPU-expensive effects ─────────────── */
+        @media (max-width: 767px) {
+          /* Hide cursor glow on mobile — touch devices don't need it */
+          .cursor-glow {
+            display: none !important;
+          }
+          /* Remove expensive compound drop-shadow on mobile kanban cards */
+          .mobile-kanban-unified-card {
+            filter: none !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+          }
+          .mobile-kanban-unified-card::before {
+            background: #181615 !important;
+          }
+          .mobile-kanban-unified-card::after {
+            filter: none !important;
+            border: 1.5px solid rgba(251, 146, 60, 0.25) !important;
+          }
+          .mobile-kanban-unified-card:hover::after {
+            filter: none !important;
+          }
+          /* Kill nav/top shell backdrop if redeclared */
+          .nav-shell {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+          .top-shell {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+        }
       `}</style>
 
             <GridBackgroundDemo />
@@ -1552,7 +1584,7 @@ export default function InternshipMatchPage() {
                                 </div>
 
                                 {sortedResults.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center py-20 px-4 text-center rounded-2xl bg-[#1d1b1a]/40 border border-orange-400/10 backdrop-blur-md">
+                                    <div className="flex flex-col items-center justify-center py-20 px-4 text-center rounded-2xl bg-[#1d1b1a] border border-orange-400/10">
                                         <div className="mb-4 opacity-60 animate-pulse">
                                             <OpportunityRadarIcon />
                                         </div>
@@ -1817,7 +1849,7 @@ export default function InternshipMatchPage() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 120 }}
                         transition={{ type: "spring", damping: 25, stiffness: 220 }}
-                        className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-[#120f0e]/95 backdrop-blur-xl border-t border-orange-400/20 rounded-t-3xl shadow-[0_-15px_30px_rgba(0,0,0,0.65)] flex flex-col gap-3 pb-8"
+                        className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-[#120f0e] border-t border-orange-400/20 rounded-t-3xl shadow-[0_-15px_30px_rgba(0,0,0,0.65)] flex flex-col gap-3 pb-8"
                     >
                         <div className="w-12 h-1 bg-stone-700 rounded-full self-center mb-1" />
                         <div className="text-center">
@@ -1878,7 +1910,7 @@ export default function InternshipMatchPage() {
                 const cardColor = COL_DOT[touchDragCard.status];
                 return (
                     <div
-                        className="fixed pointer-events-none z-[100] w-[260px] shadow-[0_25px_50px_rgba(0,0,0,0.65)] rounded-2xl bg-[#1d1b1a]/95 border backdrop-blur-md p-4 flex flex-col gap-2"
+                        className="fixed pointer-events-none z-[100] w-[260px] shadow-[0_25px_50px_rgba(0,0,0,0.65)] rounded-2xl bg-[#1d1b1a] border p-4 flex flex-col gap-2"
                         style={{
                             left: 0,
                             top: 0,

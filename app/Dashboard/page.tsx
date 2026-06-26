@@ -727,6 +727,49 @@ export default function Page() {
         .streak-logo-container .spark-1 { animation: float-spark 1.2s linear infinite; transform-origin: center; }
         .streak-logo-container .spark-2 { animation: float-spark 0.9s linear infinite 0.3s; transform-origin: center; }
         .streak-logo-container .spark-3 { animation: float-spark 1.5s linear infinite 0.6s; transform-origin: center; }
+
+        /* ─── Mobile: kill all GPU-expensive effects ─────────────── */
+        @media (max-width: 767px) {
+          /* Inline nav-shell / top-shell redeclarations in this file */
+          .nav-shell {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            background: rgba(18, 15, 14, 0.99) !important;
+          }
+          .top-shell {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            background: rgba(12, 10, 9, 0.99) !important;
+          }
+          /* Kill cursor glow filter */
+          .cursor-glow {
+            display: none !important;
+          }
+          /* Kill section glow filter */
+          .section-glow {
+            filter: none !important;
+            background: transparent !important;
+          }
+          /* Stop all continuous icon animations — major GPU drain */
+          .score-logo-container .bar-1,
+          .score-logo-container .bar-2,
+          .score-logo-container .bar-3,
+          .streak-logo-container .flame-core,
+          .streak-logo-container .spark-1,
+          .streak-logo-container .spark-2,
+          .streak-logo-container .spark-3 {
+            animation: none !important;
+          }
+          /* Remove hover filter effects */
+          .score-card:hover .scope-line,
+          .streak-card:hover .flame-core {
+            filter: none !important;
+          }
+          /* Reduce shadow cost */
+          .soft-card, .deep-card, .hero-shell {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+          }
+        }
       `}</style>
 
       <div className="relative min-h-screen orange-page-tint">

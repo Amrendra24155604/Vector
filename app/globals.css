@@ -1193,6 +1193,12 @@ input:-webkit-autofill:active {
     filter: none !important;
   }
 
+  /* Hide cursor glow on mobile — filter: blur(70px) on a fixed element
+     that updates every mousemove causes massive GPU repaints on mobile */
+  .cursor-glow {
+    display: none !important;
+  }
+
   /* ─── Kill ALL backdrop-blur / backdrop-filter on mobile ───── */
   /* These are the primary cause of flickering on mobile devices.  */
   /* Every element that uses backdrop-filter creates a new GPU      */
