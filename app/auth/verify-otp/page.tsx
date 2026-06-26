@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import GridBackgroundDemo from "../../Background/page";
 import Loader from "@/components/Loader";
 import { AIBrainIcon } from "@/components/Sidebar";
+import CursorGlow from "@/components/CursorGlow";
 
 function VerifyOtpContent() {
   const { verifyOtp, sendOtp } = useAuth();
@@ -19,7 +20,6 @@ function VerifyOtpContent() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -27,12 +27,7 @@ function VerifyOtpContent() {
     if (!email) router.replace("/auth/register");
   }, [email, router]);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) =>
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -104,10 +99,7 @@ function VerifyOtpContent() {
     <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden orange-page-tint">
       {loading && <Loader overlay title="Auth Gateway" text="Verifying..." />}
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{ transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)` }}
-      />
+      <CursorGlow />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none"
         style={{ background: "radial-gradient(ellipse, rgba(249,115,22,0.12) 0%, transparent 70%)" }} />
 

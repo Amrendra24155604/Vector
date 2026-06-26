@@ -6,6 +6,7 @@ import GridBackgroundDemo from "../../Background/page";
 import Loader from "@/components/Loader";
 import { AIBrainIcon } from "@/components/Sidebar";
 import SleekDropdown from "@/components/SleekDropdown";
+import CursorGlow from "@/components/CursorGlow";
 
 const STEPS = ["Account", "Profile", "Skills"];
 const MAJORS = [
@@ -176,7 +177,6 @@ export default function RegisterPage() {
     skills: [] as string[],
     interests: ""
   });
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [isGoogleRegistration, setIsGoogleRegistration] = useState(false);
   const [googleToken, setGoogleToken] = useState<string | null>(null);
 
@@ -186,11 +186,11 @@ export default function RegisterPage() {
     try {
       const data = await loginWithGoogle(false);
       if (!data) return; // popup closed or cancelled
-      
+
       // Store token locally to authorize patch profile request at final step
       setGoogleToken(data.token);
       setIsGoogleRegistration(true);
-      
+
       // Pre-fill form fields
       set("name", data.user.name || "");
       set("email", data.user.email || "");
@@ -199,7 +199,7 @@ export default function RegisterPage() {
       set("gradYear", data.user.graduationYear ? String(data.user.graduationYear) : "");
       set("skills", data.user.skills || []);
       set("interests", data.user.interests || "");
-      
+
       // Advance to Step 1 (Profile Info)
       setStep(1);
     } catch (err: any) {
@@ -208,7 +208,10 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
-
+  const [mousePosition, setMousePosition] = useState({
+    x: -200,
+    y: -200,
+  });
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -250,7 +253,7 @@ export default function RegisterPage() {
         if (!authToken) {
           throw new Error("Authentication token is missing. Please log in again.");
         }
-        
+
         const res = await fetch("/api/auth/profile", {
           method: "PATCH",
           headers: {
@@ -267,7 +270,7 @@ export default function RegisterPage() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to update profile.");
-        
+
         // Update user context and redirect to Dashboard
         updateUser(data.user);
         window.location.href = "/Dashboard";
@@ -295,12 +298,7 @@ export default function RegisterPage() {
     <div className="relative min-h-screen lg:h-screen lg:overflow-hidden flex items-center justify-center p-4 sm:p-6 md:p-10 lg:p-4 overflow-y-auto lg:overflow-y-hidden orange-page-tint">
       {loading && <Loader overlay title="Auth Gateway" text="Registering..." />}
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`
-        }}
-      />
+      <CursorGlow />
 
       {/* Main split viewport container (spans at least 80% viewport size) */}
       <div className="relative z-20 w-full max-w-5xl min-h-[80vh] lg:min-h-0 lg:h-[82vh] deep-card flex animate-fadeIn">

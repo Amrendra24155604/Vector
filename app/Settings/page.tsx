@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import TopBar from "@/components/TopBar";
 import GridBackgroundDemo from "../Background/page";
+import CursorGlow from "@/components/CursorGlow";
 import {
   CardIconShell,
   SettingsTuneIcon,
@@ -31,7 +32,6 @@ const COACH_VOICES: CoachVoice[] = [
 
 export default function SettingsPage() {
   const { user } = useAuth();
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [activeTab, setActiveTab] = useState<"coach" | "targets" | "system">("coach");
 
   // State values for settings configuration
@@ -48,13 +48,7 @@ export default function SettingsPage() {
 
   const [savingState, setSavingState] = useState<"idle" | "saving" | "saved">("idle");
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   // Load settings from localStorage on mount
   useEffect(() => {
@@ -191,12 +185,7 @@ export default function SettingsPage() {
       `}</style>
 
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       <TopBar title="Settings Center" />
 

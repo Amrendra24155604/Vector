@@ -7,6 +7,7 @@ import GridBackgroundDemo from "../Background/page";
 import { CanvasText } from "@/components/CanvasText";
 import { MovingWavyProgress } from "@/components/MovingWavyProgress";
 import { AnimatedProgressLogo } from "@/components/AnimatedProgressLogo";
+import CursorGlow from "@/components/CursorGlow";
 import {
   CardIconShell,
   AiCoachIcon,
@@ -83,7 +84,6 @@ export default function ProgressPage() {
   const [statsData, setStatsData] = useState<any>(null);
   const [nudgeIdx, setNudgeIdx] = useState(0);
   const nudge = NUDGES[nudgeIdx];
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [isMobile, setIsMobile] = useState(false);
 
   const getFirstSentence = (text: string) => {
@@ -100,13 +100,7 @@ export default function ProgressPage() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   useEffect(() => {
     if (!token) return;
@@ -263,12 +257,7 @@ export default function ProgressPage() {
     `}
       </style>
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       <TopBar title="Career Progress Dashboard" />
       <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">

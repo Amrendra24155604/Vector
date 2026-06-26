@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import GridBackgroundDemo from "../../Background/page";
 import Loader from "@/components/Loader";
 import { AIBrainIcon } from "@/components/Sidebar";
+import CursorGlow from "@/components/CursorGlow";
 
 const LoginIllustration = () => (
   <svg width="360" height="360" viewBox="0 0 200 200" fill="none" className="w-full max-w-[340px] aspect-square">
@@ -183,15 +184,8 @@ export default function LoginPage() {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -226,12 +220,7 @@ export default function LoginPage() {
     <div className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10 overflow-hidden orange-page-tint">
       {loading && <Loader overlay title="Auth Gateway" text="Signing in..." />}
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       {/* Main split viewport container (spans at least 80% viewport size) */}
       <div className="relative z-20 w-full max-w-5xl min-h-[80vh] deep-card flex">

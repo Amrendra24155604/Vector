@@ -41,6 +41,24 @@ export function IconCloud({ icons, images }: IconCloudProps) {
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([]);
   const imagesLoadedRef = useRef<boolean[]>([]);
   const prevItemsRef = useRef<(React.ReactNode | string)[]>([]);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(canvas);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   // Create icon canvases once when icons/images change
   useEffect(() => {
@@ -223,7 +241,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    if (canvas && ctx) {
+    if (canvas && ctx && isInView) {
       const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -315,7 +333,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [icons, images]);
+  }, [icons, images, isInView]);
 
   return (
     <canvas

@@ -45,6 +45,16 @@ export function CanvasText({
   const [resolvedColors, setResolvedColors] = useState<string[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [font, setFont] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const colorsJoined = colors.join(",");
   const updateColors = useCallback(() => {
@@ -100,6 +110,7 @@ export function CanvasText({
   }, [text, className]);
 
   useEffect(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     if (
       !canvas ||
@@ -188,6 +199,23 @@ export function CanvasText({
     curveIntensity,
     dimensions,
   ]);
+
+  if (isMobile) {
+    const gradientStyle = {
+      backgroundImage: `linear-gradient(90deg, ${resolvedColors.length > 0 ? resolvedColors.join(", ") : colors.map(resolveColor).join(", ")})`,
+    };
+    return (
+      <span
+        className={cn(
+          "relative inline-block text-transparent bg-clip-text",
+          className
+        )}
+        style={gradientStyle}
+      >
+        {text}
+      </span>
+    );
+  }
 
   return (
     <span

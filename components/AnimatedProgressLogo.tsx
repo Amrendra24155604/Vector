@@ -1,31 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 export function AnimatedProgressLogo({ className = "" }: { className?: string }) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let frameId: number;
-    let startTimestamp: number | null = null;
-    const duration = 6000; // 6 seconds for a full cycle
-
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const elapsed = timestamp - startTimestamp;
-      setProgress((elapsed % duration) / duration);
-      frameId = requestAnimationFrame(step);
-    };
-
-    frameId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
-  const getPercent = (offset: number, speedMultiplier: number = 1) => {
-    const p = ((progress * speedMultiplier) + offset + 1) % 1;
-    const val = p * 100;
-    return val <= 50 ? Math.floor(90 + val * 0.2) : Math.floor(100 - (val - 50) * 0.2); // Yoyo between 90% and 100%
-  };
 
   return (
     <div className={`relative w-full h-full flex items-center justify-center select-none pointer-events-none ${className}`}>
@@ -467,7 +444,7 @@ export function AnimatedProgressLogo({ className = "" }: { className?: string })
           <text x="590" y="387" fill="#34d399" fontSize="7.5" fontFamily="monospace" letterSpacing="0.5px">[CONVERSION // SYNC: OK]</text>
           
           {/* Bottom Center Compiling indicator */}
-          <text x="440" y="415" fill="#a855f7" fontSize="7.5" fontFamily="monospace" letterSpacing="0.5px" textAnchor="middle" opacity="0.8">METRIC ANALYSIS COMPLETE: {getPercent(0.1, 0.3)}%</text>
+          <text x="440" y="415" fill="#a855f7" fontSize="7.5" fontFamily="monospace" letterSpacing="0.5px" textAnchor="middle" opacity="0.8">METRIC ANALYSIS COMPLETE: 94%</text>
         </g>
 
         {/* Small floating sparkles / ambient nodes */}

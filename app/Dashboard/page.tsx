@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth, getAvatarProps } from "@/lib/auth";
 import GridBackgroundDemo from "../Background/page";
+import CursorGlow from "@/components/CursorGlow";
 import { CanvasText } from "@/components/CanvasText";
 import TopBar from "@/components/TopBar";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,7 +30,6 @@ export default function Page() {
     setDashboardImgError(false);
   }, [user?.avatarUrl]);
   const [statsData, setStatsData] = useState<any>(null);
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
 
   const [upcomingSession, setUpcomingSession] = useState<{
     role: string;
@@ -128,17 +128,7 @@ export default function Page() {
       .catch(err => console.error("Failed to load dashboard stats", err));
   }, [token]);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // Removed high-frequency mousemove listener to prevent render lag.
 
   const displayActivity = statsData?.recentSessions && statsData.recentSessions.length > 0
     ? statsData.recentSessions.map((session: any) => {
@@ -742,12 +732,7 @@ export default function Page() {
       <div className="relative min-h-screen orange-page-tint">
         <GridBackgroundDemo />
 
-        <div
-          className="cursor-glow"
-          style={{
-            transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-          }}
-        />
+        <CursorGlow offset={130} />
 
         <div className="relative z-20">
 

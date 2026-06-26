@@ -9,6 +9,7 @@ import { CanvasText } from "@/components/CanvasText";
 import { AnimatedResumeAnalyzerLogo } from "@/components/AnimatedResumeAnalyzerLogo";
 import { ResumeScannerIcon, AtsScoreGaugeIcon, HistoryGraphIcon, SettingsTuneIcon, DocumentFileIcon, CardIconShell } from "@/components/AnimatedCardIcons";
 import { GlareCard } from "@/components/GlareCard";
+import CursorGlow from "@/components/CursorGlow";
 
 
 const DEFAULT_SUGGESTIONS = [
@@ -216,7 +217,6 @@ export default function ResumeAnalyzerPage() {
     const [analysisResult, setAnalysisResult] = useState<any>(null);
     const [activeTab, setActiveTab] = useState("bullets");
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
 
     const bulletsTabRef = useRef<HTMLDivElement>(null);
     const rebuiltTabRef = useRef<HTMLDivElement>(null);
@@ -226,7 +226,10 @@ export default function ResumeAnalyzerPage() {
     const keywordsTabRef = useRef<HTMLDivElement>(null);
 
     const [tabHeight, setTabHeight] = useState<number | string>("auto");
-
+    const [mousePosition, setMousePosition] = useState({
+        x: -200,
+        y: -200,
+    });
     useEffect(() => {
         const tabRefs: Record<string, React.RefObject<HTMLDivElement | null>> = {
             bullets: bulletsTabRef,
@@ -717,12 +720,7 @@ export default function ResumeAnalyzerPage() {
 
             <GridBackgroundDemo />
 
-            <div
-                className="cursor-glow"
-                style={{
-                    transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`
-                }}
-            />
+            <CursorGlow />
 
             <TopBar title="Resume Analyzer" ctaLabel="Download Report" />
 
@@ -850,11 +848,10 @@ export default function ResumeAnalyzerPage() {
                                         Resume File <span className="normal-case text-stone-600">(PDF / DOC / DOCX)</span>
                                     </label>
                                     <div
-                                        className={`relative rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all duration-300 ${
-                                            dragging ? "border-orange-500 bg-orange-500/10 scale-[1.02]"
+                                        className={`relative rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all duration-300 ${dragging ? "border-orange-500 bg-orange-500/10 scale-[1.02]"
                                                 : file ? "border-orange-500/60 bg-orange-500/5"
-                                                : "border-orange-400/20 hover:border-orange-500/50 hover:bg-[#1a1716]"
-                                        }`}
+                                                    : "border-orange-400/20 hover:border-orange-500/50 hover:bg-[#1a1716]"
+                                            }`}
                                         onDragOver={e => { e.preventDefault(); setDragging(true); }}
                                         onDragLeave={() => setDragging(false)}
                                         onDrop={e => {
@@ -937,10 +934,10 @@ export default function ResumeAnalyzerPage() {
                                         {(["Modern", "Minimalist", "Creative", "Executive"] as const).map(style => {
                                             const active = templateStyle === style;
                                             const styleConfigs: Record<string, { color: string; bg: string }> = {
-                                                Modern:     { color: "#fb923c", bg: "#3d2315" },
+                                                Modern: { color: "#fb923c", bg: "#3d2315" },
                                                 Minimalist: { color: "#94a3b8", bg: "#252932" },
-                                                Creative:   { color: "#a78bfa", bg: "#2c1b4d" },
-                                                Executive:  { color: "#34d399", bg: "#14422b" },
+                                                Creative: { color: "#a78bfa", bg: "#2c1b4d" },
+                                                Executive: { color: "#34d399", bg: "#14422b" },
                                             };
                                             const cfg = styleConfigs[style];
                                             return (
@@ -1046,21 +1043,20 @@ export default function ResumeAnalyzerPage() {
                                         {/* ── Mobile tab grid (< sm) ── */}
                                         <div className="sm:hidden grid grid-cols-3 border-b border-orange-400/10 bg-[#120f0e]">
                                             {([
-                                                { id: "bullets",  label: "✦ Bullets" },
-                                                { id: "rebuilt",  label: "📄 Rebuilt" },
-                                                { id: "changes",  label: "◐ Opts" },
-                                                { id: "learn",    label: "⌘ Skills" },
-                                                { id: "skills",   label: "⚡ Gaps" },
+                                                { id: "bullets", label: "✦ Bullets" },
+                                                { id: "rebuilt", label: "📄 Rebuilt" },
+                                                { id: "changes", label: "◐ Opts" },
+                                                { id: "learn", label: "⌘ Skills" },
+                                                { id: "skills", label: "⚡ Gaps" },
                                                 { id: "keywords", label: "🗝 Keys" },
                                             ] as const).map(tab => (
                                                 <button
                                                     key={tab.id}
                                                     onClick={() => setActiveTab(tab.id)}
-                                                    className={`py-2.5 text-[9px] font-bold text-center transition-all border-b-2 ${
-                                                        activeTab === tab.id
+                                                    className={`py-2.5 text-[9px] font-bold text-center transition-all border-b-2 ${activeTab === tab.id
                                                             ? "border-orange-500 text-orange-400 bg-orange-500/5"
                                                             : "border-transparent text-stone-500 hover:text-white"
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {tab.label}
                                                 </button>
@@ -1070,11 +1066,11 @@ export default function ResumeAnalyzerPage() {
                                         {/* ── Desktop tab bar (sm+) ── */}
                                         <div className="relative hidden sm:flex border-b border-orange-400/10 bg-[#120f0e]">
                                             {([
-                                                { id: "bullets",  label: "✦ Bullet Rewrites" },
-                                                { id: "rebuilt",  label: "📄 Rebuilt Resume" },
-                                                { id: "changes",  label: "◐ Optimizations" },
-                                                { id: "learn",    label: "⌘ Up-skilling" },
-                                                { id: "skills",   label: "⚡︎ Skill Gaps" },
+                                                { id: "bullets", label: "✦ Bullet Rewrites" },
+                                                { id: "rebuilt", label: "📄 Rebuilt Resume" },
+                                                { id: "changes", label: "◐ Optimizations" },
+                                                { id: "learn", label: "⌘ Up-skilling" },
+                                                { id: "skills", label: "⚡︎ Skill Gaps" },
                                                 { id: "keywords", label: "🗝︎ Keywords" },
                                             ] as const).map(tab => (
                                                 <button

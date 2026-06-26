@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import TopBar from "@/components/TopBar";
 import GridBackgroundDemo from "../Background/page";
 import Link from "next/link";
+import CursorGlow from "@/components/CursorGlow";
 import {
   CardIconShell,
   NotificationsBellIcon,
@@ -87,16 +88,9 @@ export default function NotificationsPage() {
   const { token } = useAuth();
   const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
   const [filter, setFilter] = useState<string>("all");
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   // Dynamic notification generator (1 notification every 12 hours)
   useEffect(() => {
@@ -211,12 +205,7 @@ export default function NotificationsPage() {
       `}</style>
 
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       {/* Real-time Dynamic Toast Alert popup */}
       {toast && (

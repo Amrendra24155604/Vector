@@ -1065,3 +1065,92 @@ input:-webkit-autofill:active {
 .hud-input-group:focus-within {
   transform: translateY(-2px);
 }
+
+/* ─── GPU Layer Promotion for Animated SVG Elements ──────────── */
+/* Promote animated transforms to their own compositing layer     */
+.orbit-rotate-cw,
+.orbit-rotate-ccw,
+.float-streak,
+.float-metrics,
+.float-stats-left,
+.float-stats-right,
+.float-param-1,
+.float-param-2,
+.float-param-3,
+.vector-pulse-fwd,
+.flame-core,
+.bar-1, .bar-2, .bar-3,
+.hist-bar-1, .hist-bar-2, .hist-bar-3, .hist-bar-4,
+.voice-bar-1, .voice-bar-2, .voice-bar-3,
+.voice-bar-4, .voice-bar-5, .voice-bar-6,
+.bar-grow-1, .bar-grow-2, .bar-grow-3,
+.up-min-hand, .up-hour-hand, .up-rotate-cw,
+.scan-laser,
+.ats-hex-spin,
+.act-node-1, .act-node-2, .act-node-3,
+.trends-ripple-1, .trends-ripple-2, .trends-ripple-3,
+.animate-spin-slow {
+  will-change: transform;
+}
+
+/* ─── Mobile: Disable all infinite SVG/icon animations ──────── */
+/* On mobile, all these loops consume CPU/GPU and cause flicker.  */
+/* Pure static appearance is better than janky animations.        */
+@media (max-width: 767px) {
+  /* Disable all animated card icons */
+  .bar-1, .bar-2, .bar-3,
+  .bar-grow-1, .bar-grow-2, .bar-grow-3,
+  .hist-bar-1, .hist-bar-2, .hist-bar-3, .hist-bar-4,
+  .voice-bar-1, .voice-bar-2, .voice-bar-3,
+  .voice-bar-4, .voice-bar-5, .voice-bar-6,
+  .up-min-hand, .up-hour-hand, .up-rotate-cw, .up-pulse,
+  .act-draw, .act-node-1, .act-node-2, .act-node-3,
+  .trends-ripple-1, .trends-ripple-2, .trends-ripple-3, .trends-core,
+  .scan-laser, .scan-doc-glow,
+  .ats-hex-spin, .ats-check-draw,
+  .flame-core, .spark-1, .spark-2, .spark-3,
+  .outer-ring, .check-path, .scope-line, .glowing-target-dot,
+  .sine-slide-1, .sine-slide-2,
+  /* Disable all animated logo elements */
+  .orbit-rotate-cw, .orbit-rotate-ccw,
+  .float-streak, .float-metrics,
+  .float-stats-left, .float-stats-right,
+  .float-param-1, .float-param-2, .float-param-3,
+  .vector-pulse-fwd,
+  .node-blink-orange, .node-blink-cyan, .node-blink-blue, .node-blink-green,
+  .bar-grow-1, .bar-grow-2, .bar-grow-3,
+  .text-line-1, .text-line-2, .text-line-3, .text-line-4,
+  /* Global animated utilities */
+  .animate-spin-slow,
+  .wave-bar {
+    animation: none !important;
+    transition: none !important;
+    will-change: auto;
+  }
+
+  /* Remove drop-shadow filters on mobile — very expensive to repaint */
+  [style*="drop-shadow"] {
+    filter: none !important;
+  }
+
+  /* Disable backdrop blurs on mobile nav bars — large repaint area */
+  .nav-shell {
+    backdrop-filter: none;
+    background: rgba(18, 15, 14, 0.98);
+  }
+  .top-shell {
+    backdrop-filter: none;
+    background: rgba(12, 10, 9, 0.98);
+  }
+}
+
+/* ─── Reduced Motion: Respect OS preference globally ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

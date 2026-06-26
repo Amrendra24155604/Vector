@@ -9,6 +9,7 @@ import Loader from "@/components/Loader";
 import { CanvasText } from "@/components/CanvasText";
 import { AnimatedOutreachLogo } from "@/components/AnimatedOutreachLogo";
 import { GlareCard } from "@/components/GlareCard";
+import CursorGlow from "@/components/CursorGlow";
 import {
   CoachPreferencesIcon,
   OutreachMailHeroIcon,
@@ -64,18 +65,11 @@ export default function ColdEmailPage() {
   const [result, setResult] = useState<{ email: string; linkedin: string } | null>(null);
   const [activeOutput, setActiveOutput] = useState<"email" | "linkedin">("email");
   const [copied, setCopied] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [generatedId, setGeneratedId] = useState<string | null>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; draftId: string; company: string } | null>(null);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   // Screen width tracking for mobile optimizations
   const [isMobile, setIsMobile] = useState(false);
@@ -252,12 +246,7 @@ export default function ColdEmailPage() {
       `}
       </style>
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       <TopBar title="Cold Email Generator" ctaLabel="Generate Email" />
       <main className="relative z-20 sidebar-aware pt-24 pb-8 px-6 min-h-screen">

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Script from "next/script";
 import TopBar from "@/components/TopBar";
 import GridBackgroundDemo from "../Background/page";
+import CursorGlow from "@/components/CursorGlow";
 import {
   CardIconShell,
   AiCoachIcon,
@@ -17,7 +18,6 @@ import {
 export default function UpgradePage() {
   const { user, token, loading, updateUser } = useAuth();
   const router = useRouter();
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
 
   // Payment states
@@ -26,13 +26,7 @@ export default function UpgradePage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
 
   // Redirect if not logged in
   useEffect(() => {
@@ -164,12 +158,7 @@ export default function UpgradePage() {
       `}</style>
 
       <GridBackgroundDemo />
-      <div
-        className="cursor-glow"
-        style={{
-          transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-        }}
-      />
+      <CursorGlow />
 
       <TopBar title="Upgrade Membership" />
 

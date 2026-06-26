@@ -12,6 +12,7 @@ import { useAuth, getAvatarProps } from "@/lib/auth";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, useTransform, animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 import TargetCursor from "@/components/ui/TargetCursor";
+import CursorGlow from "@/components/CursorGlow";
 
 const GlobeComponent = dynamic(() => import("@/components/GlobeComponent"), {
   ssr: false,
@@ -1661,8 +1662,19 @@ export default function Page() {
   useEffect(() => {
     setLandingImgError(false);
   }, [user?.avatarUrl]);
-  const [mousePosition, setMousePosition] = useState({ x: -200, y: -200 });
+  const [isLgScreen, setIsLgScreen] = useState(false);
+  const [isLightRaysMobile, setIsLightRaysMobile] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLgScreen(window.innerWidth >= 1024);
+      setIsLightRaysMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const items = [
     {
       quote: "Smart Resume Analyzer",
@@ -1716,17 +1728,7 @@ export default function Page() {
     },
   ];
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  // Removed high-frequency mousemove state tracking to prevent mobile and desktop lag.
 
   return (
     <>
@@ -1839,12 +1841,7 @@ export default function Page() {
         />
         <GridBackgroundDemo />
 
-        <div
-          className="cursor-glow"
-          style={{
-            transform: `translate3d(${mousePosition.x - 130}px, ${mousePosition.y - 130}px, 0)`,
-          }}
-        />
+        <CursorGlow offset={130} />
         <div className="relative z-20">
           <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-stone-950/80 backdrop-blur-md border-b border-stone-800 flex items-center px-4 sm:px-6 justify-between">
             <div className="flex items-center gap-8">
@@ -1917,21 +1914,25 @@ export default function Page() {
 
                   {/* LightRays rendering inside the glass container background */}
                   <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
-                    <LightRays
-                      raysOrigin="top-center"
-                      raysColor="#ffffff"
-                      raysSpeed={1}
-                      lightSpread={1.5}
-                      rayLength={5}
-                      followMouse={true}
-                      mouseInfluence={0.1}
-                      noiseAmount={0}
-                      distortion={0}
-                      className="w-full h-full"
-                      pulsating={false}
-                      fadeDistance={2}
-                      saturation={1}
-                    />
+                    {!isLightRaysMobile ? (
+                      <LightRays
+                        raysOrigin="top-center"
+                        raysColor="#ffffff"
+                        raysSpeed={1}
+                        lightSpread={1.5}
+                        rayLength={5}
+                        followMouse={true}
+                        mouseInfluence={0.1}
+                        noiseAmount={0}
+                        distortion={0}
+                        className="w-full h-full"
+                        pulsating={false}
+                        fadeDistance={2}
+                        saturation={1}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-b from-white/5 to-transparent" />
+                    )}
                   </div>
 
                   <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center justify-between">
@@ -1983,11 +1984,13 @@ export default function Page() {
                     {/* Right Column: Swinging Physics Lanyard Card — hidden on mobile */}
                     <div className="hidden lg:flex w-full lg:w-[30%] min-w-0 justify-center items-center relative min-h-[400px] z-10">
                       <div style={{ height: '400px', position: 'relative', width: '100%', maxWidth: '500px' }} className="flex justify-center items-center">
-                        <Lanyard
-                          position={[0, 0, 20]}
-                          gravity={[0, -40, 0]}
-                          lanyardWidth={1}
-                        />
+                        {isLgScreen && (
+                          <Lanyard
+                            position={[0, 0, 20]}
+                            gravity={[0, -40, 0]}
+                            lanyardWidth={1}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>

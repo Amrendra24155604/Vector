@@ -11,7 +11,18 @@ export default function GlobalFocusCursor() {
     borderRadius: string;
   } | null>(null);
 
+  const [isEnabled, setIsEnabled] = useState(false);
+
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(any-hover: hover) and (any-pointer: fine)");
+    setIsEnabled(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setIsEnabled(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (!isEnabled) return;
     let activeElement: HTMLElement | null = null;
 
     const handleFocusIn = (e: FocusEvent) => {
@@ -86,7 +97,9 @@ export default function GlobalFocusCursor() {
         (activeElement as any)._focusCleanup();
       }
     };
-  }, []);
+  }, [isEnabled]);
+
+  if (!isEnabled) return null;
 
   return (
     <AnimatePresence>

@@ -1,31 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 export function AnimatedMatchAgentLogo({ className = "" }: { className?: string }) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let frameId: number;
-    let startTimestamp: number | null = null;
-    const duration = 6000; // 6 seconds for a full yoyo cycle
-
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const elapsed = timestamp - startTimestamp;
-      setProgress((elapsed % duration) / duration);
-      frameId = requestAnimationFrame(step);
-    };
-
-    frameId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
-  const getPercent = (offset: number, speedMultiplier: number = 1) => {
-    const p = ((progress * speedMultiplier) + offset + 1) % 1;
-    const val = p * 200;
-    return val <= 100 ? Math.floor(val) : Math.floor(200 - val);
-  };
 
   return (
     <div className={`relative w-full h-full flex items-center justify-center select-none pointer-events-none ${className}`}>
@@ -357,7 +334,7 @@ export function AnimatedMatchAgentLogo({ className = "" }: { className?: string 
             <polygon points="620,112 652,131 652,169 620,188 588,169 588,131" fill="none" stroke="#f97316" strokeWidth="0.75" strokeOpacity="0.2" strokeDasharray="3 2"/>
             
             {/* Match Percentage */}
-            <text x="620" y="142" fill="#fef3e8" fontSize="13" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle" filter="url(#match-glow)">{`${getPercent(0.06, 1.2)}%`}</text>
+            <text x="620" y="142" fill="#fef3e8" fontSize="13" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle" filter="url(#match-glow)">96%</text>
             <text x="620" y="156" fill="#fdba74" fillOpacity="0.65" fontSize="7.5" fontWeight="bold" fontFamily="monospace" textAnchor="middle" letterSpacing="0.5px">MATCH</text>
             <circle cx="620" cy="118" r="2.5" fill="#f97316" className="node-blink-offered"/>
             
@@ -375,7 +352,7 @@ export function AnimatedMatchAgentLogo({ className = "" }: { className?: string 
             <polygon points="620,252 652,271 652,309 620,328 588,309 588,271" fill="none" stroke="#f97316" strokeWidth="0.75" strokeOpacity="0.2" strokeDasharray="3 2"/>
             
             {/* Match Percentage */}
-            <text x="620" y="292" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">{`${getPercent(0.03, 0.95)}%`}</text>
+            <text x="620" y="292" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">91%</text>
             <text x="620" y="306" fill="#fb923c" fillOpacity="0.6" fontSize="7" fontWeight="bold" fontFamily="monospace" textAnchor="middle">MATCH</text>
             <circle cx="620" cy="258" r="2" fill="#fb923c" className="node-blink-interview"/>
             
@@ -400,7 +377,7 @@ export function AnimatedMatchAgentLogo({ className = "" }: { className?: string 
             <polygon points="420,112 452,131 452,169 420,188 388,169 388,131" fill="none" stroke="#f97316" strokeWidth="0.75" strokeOpacity="0.2" strokeDasharray="3 2"/>
             
             {/* Match Percentage */}
-            <text x="420" y="142" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">{`${getPercent(0, 1.0)}%`}</text>
+            <text x="420" y="142" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">88%</text>
             <text x="420" y="156" fill="#fb923c" fillOpacity="0.6" fontSize="7" fontWeight="bold" fontFamily="monospace" textAnchor="middle">MATCH</text>
             <circle cx="420" cy="118" r="2" fill="#fb923c" className="node-blink-applied"/>
 
@@ -425,7 +402,7 @@ export function AnimatedMatchAgentLogo({ className = "" }: { className?: string 
             <polygon points="380,182 412,201 412,239 380,258 348,239 348,201" fill="none" stroke="#f97316" strokeWidth="0.75" strokeOpacity="0.2" strokeDasharray="3 2"/>
             
             {/* Match Percentage */}
-            <text x="380" y="222" fill="#fef3e8" fontSize="13" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle" filter="url(#match-glow)">{`${getPercent(-0.03, 0.8)}%`}</text>
+            <text x="380" y="222" fill="#fef3e8" fontSize="13" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle" filter="url(#match-glow)">94%</text>
             <text x="380" y="236" fill="#fdba74" fillOpacity="0.65" fontSize="7.5" fontWeight="bold" fontFamily="monospace" textAnchor="middle" letterSpacing="0.5px">MATCH</text>
             <circle cx="380" cy="188" r="2.5" fill="#f97316" className="node-blink-saved"/>
 
@@ -450,7 +427,7 @@ export function AnimatedMatchAgentLogo({ className = "" }: { className?: string 
             <polygon points="420,252 452,271 452,309 420,328 388,309 388,271" fill="none" stroke="#f97316" strokeWidth="0.75" strokeOpacity="0.2" strokeDasharray="3 2"/>
             
             {/* Match Percentage */}
-            <text x="420" y="282" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">{`${getPercent(0.09, 1.5)}%`}</text>
+            <text x="420" y="282" fill="#fdba74" fontSize="12" fontWeight="bold" fontFamily="system-ui, sans-serif" textAnchor="middle">85%</text>
             <text x="420" y="296" fill="#fb923c" fillOpacity="0.6" fontSize="7" fontWeight="bold" fontFamily="monospace" textAnchor="middle">MATCH</text>
             <circle cx="420" cy="258" r="2" fill="#fb923c" className="node-blink-rejected"/>
 
