@@ -119,13 +119,12 @@ function ResourceSearch() {
       {/* Dropdown */}
       {open && (
         <div
-          className="absolute right-0 mt-2 rounded-2xl overflow-hidden"
+          className="absolute right-0 mt-2 rounded-2xl overflow-hidden topbar-dropdown"
           style={{
             width: 280,
-            background: "rgba(18, 15, 14, 0.97)",
+            background: "rgba(18, 15, 14, 0.99)",
             border: "1px solid rgba(251, 146, 60, 0.15)",
             boxShadow: "0 24px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(251,146,60,0.05)",
-            backdropFilter: "blur(20px)",
             zIndex: 999,
           }}
         >
@@ -245,9 +244,9 @@ export default function TopBar({ title, ctaLabel = "Start Interview", ctaHref = 
 
   return (
     <header
-      className="fixed top-0 right-0 z-40 sidebar-aware-top"
+      className="fixed top-0 right-0 z-40 sidebar-aware-top topbar-shell"
       style={{
-        background: "rgba(12, 10, 9, 0.82)",
+        background: "rgba(12, 10, 9, 0.92)",
         backdropFilter: "blur(14px)",
         borderBottom: "1px solid rgba(251, 146, 60, 0.10)",
       }}

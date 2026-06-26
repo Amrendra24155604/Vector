@@ -763,8 +763,7 @@ export default function Sidebar() {
       <div
         className="fixed top-0 left-0 right-0 h-14 z-50 flex items-center px-4 justify-between lg:hidden"
         style={{
-          background: "rgba(18,15,14,0.96)",
-          backdropFilter: "blur(20px)",
+          background: "rgba(18,15,14,0.99)",
           borderBottom: "1px solid rgba(251,146,60,0.10)",
         }}
       >
@@ -801,7 +800,7 @@ export default function Sidebar() {
             <motion.div
               key="mobile-backdrop"
               className="fixed inset-0 z-[99] lg:hidden"
-              style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
+              style={{ background: "rgba(0,0,0,0.72)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -816,8 +815,7 @@ export default function Sidebar() {
               className="fixed inset-y-0 left-0 z-[100] flex flex-col p-6 lg:hidden"
               style={{
                 width: "min(300px, 85vw)",
-                background: "rgba(12,10,9,0.98)",
-                backdropFilter: "blur(28px)",
+                background: "rgb(10,9,8)",
                 borderRight: "1px solid rgba(251,146,60,0.12)",
               }}
               initial={{ x: "-100%" }}
@@ -918,8 +916,7 @@ export default function Sidebar() {
         <div
           className="fixed bottom-0 left-0 right-0 h-16 z-50 flex items-center justify-around lg:hidden"
           style={{
-            background: "rgba(18,15,14,0.96)",
-            backdropFilter: "blur(20px)",
+            background: "rgba(18,15,14,0.99)",
             borderTop: "1px solid rgba(251,146,60,0.12)",
           }}
         >

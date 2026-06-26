@@ -1079,16 +1079,33 @@ input:-webkit-autofill:active {
 .float-param-3,
 .vector-pulse-fwd,
 .flame-core,
-.bar-1, .bar-2, .bar-3,
-.hist-bar-1, .hist-bar-2, .hist-bar-3, .hist-bar-4,
-.voice-bar-1, .voice-bar-2, .voice-bar-3,
-.voice-bar-4, .voice-bar-5, .voice-bar-6,
-.bar-grow-1, .bar-grow-2, .bar-grow-3,
-.up-min-hand, .up-hour-hand, .up-rotate-cw,
+.bar-1,
+.bar-2,
+.bar-3,
+.hist-bar-1,
+.hist-bar-2,
+.hist-bar-3,
+.hist-bar-4,
+.voice-bar-1,
+.voice-bar-2,
+.voice-bar-3,
+.voice-bar-4,
+.voice-bar-5,
+.voice-bar-6,
+.bar-grow-1,
+.bar-grow-2,
+.bar-grow-3,
+.up-min-hand,
+.up-hour-hand,
+.up-rotate-cw,
 .scan-laser,
 .ats-hex-spin,
-.act-node-1, .act-node-2, .act-node-3,
-.trends-ripple-1, .trends-ripple-2, .trends-ripple-3,
+.act-node-1,
+.act-node-2,
+.act-node-3,
+.trends-ripple-1,
+.trends-ripple-2,
+.trends-ripple-3,
 .animate-spin-slow {
   will-change: transform;
 }
@@ -1097,29 +1114,72 @@ input:-webkit-autofill:active {
 /* On mobile, all these loops consume CPU/GPU and cause flicker.  */
 /* Pure static appearance is better than janky animations.        */
 @media (max-width: 767px) {
+
   /* Disable all animated card icons */
-  .bar-1, .bar-2, .bar-3,
-  .bar-grow-1, .bar-grow-2, .bar-grow-3,
-  .hist-bar-1, .hist-bar-2, .hist-bar-3, .hist-bar-4,
-  .voice-bar-1, .voice-bar-2, .voice-bar-3,
-  .voice-bar-4, .voice-bar-5, .voice-bar-6,
-  .up-min-hand, .up-hour-hand, .up-rotate-cw, .up-pulse,
-  .act-draw, .act-node-1, .act-node-2, .act-node-3,
-  .trends-ripple-1, .trends-ripple-2, .trends-ripple-3, .trends-core,
-  .scan-laser, .scan-doc-glow,
-  .ats-hex-spin, .ats-check-draw,
-  .flame-core, .spark-1, .spark-2, .spark-3,
-  .outer-ring, .check-path, .scope-line, .glowing-target-dot,
-  .sine-slide-1, .sine-slide-2,
+  .bar-1,
+  .bar-2,
+  .bar-3,
+  .bar-grow-1,
+  .bar-grow-2,
+  .bar-grow-3,
+  .hist-bar-1,
+  .hist-bar-2,
+  .hist-bar-3,
+  .hist-bar-4,
+  .voice-bar-1,
+  .voice-bar-2,
+  .voice-bar-3,
+  .voice-bar-4,
+  .voice-bar-5,
+  .voice-bar-6,
+  .up-min-hand,
+  .up-hour-hand,
+  .up-rotate-cw,
+  .up-pulse,
+  .act-draw,
+  .act-node-1,
+  .act-node-2,
+  .act-node-3,
+  .trends-ripple-1,
+  .trends-ripple-2,
+  .trends-ripple-3,
+  .trends-core,
+  .scan-laser,
+  .scan-doc-glow,
+  .ats-hex-spin,
+  .ats-check-draw,
+  .flame-core,
+  .spark-1,
+  .spark-2,
+  .spark-3,
+  .outer-ring,
+  .check-path,
+  .scope-line,
+  .glowing-target-dot,
+  .sine-slide-1,
+  .sine-slide-2,
   /* Disable all animated logo elements */
-  .orbit-rotate-cw, .orbit-rotate-ccw,
-  .float-streak, .float-metrics,
-  .float-stats-left, .float-stats-right,
-  .float-param-1, .float-param-2, .float-param-3,
+  .orbit-rotate-cw,
+  .orbit-rotate-ccw,
+  .float-streak,
+  .float-metrics,
+  .float-stats-left,
+  .float-stats-right,
+  .float-param-1,
+  .float-param-2,
+  .float-param-3,
   .vector-pulse-fwd,
-  .node-blink-orange, .node-blink-cyan, .node-blink-blue, .node-blink-green,
-  .bar-grow-1, .bar-grow-2, .bar-grow-3,
-  .text-line-1, .text-line-2, .text-line-3, .text-line-4,
+  .node-blink-orange,
+  .node-blink-cyan,
+  .node-blink-blue,
+  .node-blink-green,
+  .bar-grow-1,
+  .bar-grow-2,
+  .bar-grow-3,
+  .text-line-1,
+  .text-line-2,
+  .text-line-3,
+  .text-line-4,
   /* Global animated utilities */
   .animate-spin-slow,
   .wave-bar {
@@ -1133,19 +1193,80 @@ input:-webkit-autofill:active {
     filter: none !important;
   }
 
-  /* Disable backdrop blurs on mobile nav bars — large repaint area */
+  /* ─── Kill ALL backdrop-blur / backdrop-filter on mobile ───── */
+  /* These are the primary cause of flickering on mobile devices.  */
+  /* Every element that uses backdrop-filter creates a new GPU      */
+  /* compositing layer and forces a full repaint on scroll.         */
+
+  /* Nav shells */
   .nav-shell {
-    backdrop-filter: none;
-    background: rgba(18, 15, 14, 0.98);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(18, 15, 14, 0.99) !important;
   }
-  .top-shell {
-    backdrop-filter: none;
-    background: rgba(12, 10, 9, 0.98);
+
+  .top-shell,
+  .topbar-shell {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(12, 10, 9, 0.99) !important;
+  }
+
+  /* TopBar search dropdown */
+  .topbar-dropdown {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Tailwind backdrop-blur utility classes — kill all variants */
+  .backdrop-blur-none,
+  .backdrop-blur-sm,
+  .backdrop-blur,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Any element with an inline backdropFilter style (JS-injected) */
+  /* We target known fixed-position UI containers */
+  [style*="backdropFilter"],
+  [style*="backdrop-filter"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ─── Paint containment on fixed UI shells ────────────────── */
+  /* Prevents the browser from repainting the entire viewport     */
+  /* when these fixed elements change. Key for scroll smoothness. */
+  .nav-shell,
+  .topbar-shell {
+    contain: layout style paint;
+  }
+
+  /* ─── Disable GPU-expensive filters on card content ─────────  */
+  /* Tailwind filter / drop-shadow utilities on cards             */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+  }
+
+  /* ─── Loader backdrop ─────────────────────────────────────── */
+  .loader-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(10, 8, 7, 0.97) !important;
   }
 }
 
 /* ─── Reduced Motion: Respect OS preference globally ─────────── */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

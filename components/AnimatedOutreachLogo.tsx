@@ -341,7 +341,7 @@ export function AnimatedOutreachLogo({ className = "" }: { className?: string })
         {/* Center: Holographic Terminal Code/Log Window */}
         <g>
           {/* Card container */}
-          <rect x="350" y="48" width="180" height="66" rx="8" fill="rgba(20, 18, 17, 0.85)" stroke="url(#console-borderGrad)" strokeWidth="1.2" backdrop-filter="blur(6px)" filter="url(#outreach-shadow)" />
+          <rect x="350" y="48" width="180" height="66" rx="8" fill="rgba(20, 18, 17, 0.85)" stroke="url(#console-borderGrad)" strokeWidth="1.2" filter="url(#outreach-shadow)" />
           {/* Header dots */}
           <circle cx="362" cy="56" r="2" fill="#ef4444" opacity="0.8" />
           <circle cx="368" cy="56" r="2" fill="#f59e0b" opacity="0.8" />
@@ -461,7 +461,7 @@ export function AnimatedOutreachLogo({ className = "" }: { className?: string })
 
         {/* Left Floating Email Stats Card */}
         <g className="float-stats-left" style={{ transformOrigin: '215px 335px' }}>
-          <rect x="180" y="310" width="70" height="50" rx="8" fill="rgba(29, 27, 26, 0.75)" stroke="rgba(251,146,60,0.25)" strokeWidth="1" backdrop-filter="blur(4px)" />
+          <rect x="180" y="310" width="70" height="50" rx="8" fill="rgba(29, 27, 26, 0.75)" stroke="rgba(251,146,60,0.25)" strokeWidth="1" />
           <text x="188" y="324" fill="#f97316" fontSize="6.5" fontWeight="bold" fontFamily="monospace" letterSpacing="0.2px">DELIVERY</text>
           <text x="188" y="337" fill="#fff" fontSize="10.5" fontWeight="bold" fontFamily="system-ui, sans-serif">99.2%</text>
           <path d="M 188 348 L 202 344 L 215 349 L 230 343 L 242 346" stroke="#22c55e" strokeWidth="1.2" fill="none" strokeLinecap="round" />
@@ -469,7 +469,7 @@ export function AnimatedOutreachLogo({ className = "" }: { className?: string })
 
         {/* Right Floating LinkedIn Stats Card */}
         <g className="float-stats-right" style={{ transformOrigin: '645px 335px' }}>
-          <rect x="610" y="310" width="70" height="50" rx="8" fill="rgba(29, 27, 26, 0.75)" stroke="rgba(96,165,250,0.25)" strokeWidth="1" backdrop-filter="blur(4px)" />
+          <rect x="610" y="310" width="70" height="50" rx="8" fill="rgba(29, 27, 26, 0.75)" stroke="rgba(96,165,250,0.25)" strokeWidth="1" />
           <text x="618" y="324" fill="#3b82f6" fontSize="6.5" fontWeight="bold" fontFamily="monospace" letterSpacing="0.2px">RESPONSE</text>
           <text x="618" y="337" fill="#fff" fontSize="10" fontWeight="bold" fontFamily="system-ui, sans-serif">A+ INDEX</text>
           

@@ -194,6 +194,14 @@ export default function Loader({
           from { opacity: 0; }
           to { opacity: 1; }
         }
+
+        @media (max-width: 767px) {
+          .cp-loader-overlay {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background-color: rgba(10, 8, 7, 0.97);
+          }
+        }
       `}</style>
       <div className="cp-terminal-loader">
         <div className="cp-terminal-header">

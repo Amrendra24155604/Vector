@@ -540,16 +540,16 @@ export default function ProfilePage() {
                 {statsItems.map((s) => {
                   const StatIcon = PROFILE_STAT_ICONS[s.icon] || InterviewsCompletedIcon;
                   return (
-                  <div key={s.label} className="deep-card rounded-2xl p-5 flex flex-col gap-3 relative overflow-hidden interactive hover:-translate-y-0.5">
-                    <div className="section-glow" />
-                    <CardIconShell className="p-2 w-fit">
-                      <StatIcon />
-                    </CardIconShell>
-                    <div>
-                      <p className="text-stone-500 text-xs font-medium">{s.label}</p>
-                      <p className="text-2xl font-bold text-white tracking-tight">{s.value}</p>
+                    <div key={s.label} className="deep-card rounded-2xl p-5 flex flex-col gap-3 relative overflow-hidden interactive hover:-translate-y-0.5">
+                      <div className="section-glow" />
+                      <CardIconShell className="p-2 w-fit">
+                        <StatIcon />
+                      </CardIconShell>
+                      <div>
+                        <p className="text-stone-500 text-xs font-medium">{s.label}</p>
+                        <p className="text-2xl font-bold text-white tracking-tight">{s.value}</p>
+                      </div>
                     </div>
-                  </div>
                   );
                 })}
               </div>
