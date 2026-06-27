@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db-connect';
 import User from '@/models/User';
 import { verifyGoogleToken } from '@/lib/firebase-admin';
 import jwt from 'jsonwebtoken';
+export { OPTIONS } from '@/lib/cors';
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET || 'careerpilot_dev_secret_2024', {

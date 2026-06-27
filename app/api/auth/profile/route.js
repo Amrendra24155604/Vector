@@ -4,6 +4,7 @@ import dbConnect from '@/lib/db-connect';
 import User from '@/models/User';
 import Session from '@/models/Session';
 import Email from '@/models/Email';
+export { OPTIONS } from '@/lib/cors';
 
 export async function PATCH(req) {
   try {

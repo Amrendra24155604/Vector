@@ -6,6 +6,7 @@ import Application from '@/models/Application';
 import Email from '@/models/Email';
 import Resume from '@/models/Resume';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 export async function GET(req) {
   try {

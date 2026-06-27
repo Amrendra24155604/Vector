@@ -4,6 +4,7 @@ import dbConnect from '@/lib/db-connect';
 import Email from '@/models/Email';
 import User from '@/models/User';
 import { generateOutreach } from '@/agents/emailAgent';
+export { OPTIONS } from '@/lib/cors';
 
 export async function POST(req) {
   try {

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Email from '@/models/Email';
+export { OPTIONS } from '@/lib/cors';
 
 export async function PATCH(req, { params }) {
   try {

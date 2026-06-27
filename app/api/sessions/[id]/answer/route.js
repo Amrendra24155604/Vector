@@ -3,6 +3,7 @@ import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Session from '@/models/Session';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 // Regex fallback scorer (used if Python agent fails)
 function scoreFallback(answer) {

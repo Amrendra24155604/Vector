@@ -6,6 +6,7 @@ import Session from '@/models/Session';
 import Email from '@/models/Email';
 import fs from 'fs';
 import path from 'path';
+export { OPTIONS } from '@/lib/cors';
 
 export async function POST(req) {
   try {

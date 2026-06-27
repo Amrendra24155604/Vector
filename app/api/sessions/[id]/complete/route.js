@@ -4,6 +4,7 @@ import dbConnect from '@/lib/db-connect';
 import Session from '@/models/Session';
 import User from '@/models/User';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 export async function PATCH(req, { params }) {
   try {

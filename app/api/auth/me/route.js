@@ -3,6 +3,7 @@ import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Session from '@/models/Session';
 import Email from '@/models/Email';
+export { OPTIONS } from '@/lib/cors';
 
 export async function GET(req) {
   try {

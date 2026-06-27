@@ -3,6 +3,7 @@ import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Application from '@/models/Application';
 import User from '@/models/User';
+export { OPTIONS } from '@/lib/cors';
 
 export async function POST(req) {
   try {

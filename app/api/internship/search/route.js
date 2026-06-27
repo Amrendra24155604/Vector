@@ -5,6 +5,7 @@ import { runPythonAgent } from '@/lib/python-runner';
 import { ChatOpenAI } from "@langchain/openai";
 import fs from 'fs';
 import path from 'path';
+export { OPTIONS } from '@/lib/cors';
 
 function cleanCompanyName(company) {
   if (!company) return "";

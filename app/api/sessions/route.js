@@ -3,6 +3,7 @@ import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Session from '@/models/Session';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 // Static fallback question bank (used if Python agent fails)
 const questionBank = {

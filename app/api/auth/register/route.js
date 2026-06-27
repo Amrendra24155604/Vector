@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db-connect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import { sendOtpEmail } from '@/lib/email';
+export { OPTIONS } from '@/lib/cors';
 
 function generateOtp() {
   return String(Math.floor(100000 + Math.random() * 900000)); // 6-digit

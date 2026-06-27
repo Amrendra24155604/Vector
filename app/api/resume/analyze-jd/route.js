@@ -3,6 +3,7 @@ import verifyAuth from '@/lib/auth-middleware';
 import dbConnect from '@/lib/db-connect';
 import Resume from '@/models/Resume';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 function mockAnalyzeResume(jd = '', rawText = '') {
   const atsScore = Math.floor(Math.random() * 30) + 65;

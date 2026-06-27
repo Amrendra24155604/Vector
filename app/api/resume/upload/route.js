@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import pdf from 'pdf-parse/lib/pdf-parse.js';
 import { runPythonAgent } from '@/lib/python-runner';
+export { OPTIONS } from '@/lib/cors';
 
 function mockAnalyzeResume(jd = '', rawText = '') {
   const atsScore = Math.floor(Math.random() * 30) + 65;
